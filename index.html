@@ -1,270 +1,746 @@
-<!DOCTYPE HTML>
-<!--
-	Directive by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-	<head>
-		<title>Directive by HTML5 UP</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-	</head>
-	<body class="is-preload">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="OakOn Labs — Mission Control. We build and deliver impactful work.">
+<title>OAKON LABS · MISSION CONTROL</title>
 
-		<!-- Header -->
-			<div id="header">
-				<span class="logo icon fa-paper-plane"></span>
-				<h1>Hi. We are OakOn.</h1>
-				<p>Just getting started<a href="mailto:your_email@example.com">Click to email me</a>
-				<br />
-				</p>
-			</div>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;900&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
 
-		<!-- Main -->
-			<div id="main">
+<style>
+/* ── TOKENS ─────────────────────────────── */
+:root {
+  --g:      #00FF41;    /* primary green  */
+  --g-dim:  #008B23;    /* muted green    */
+  --g-glow: rgba(0,255,65,0.18);
+  --cy:     #00E5FF;    /* cyan accent    */
+  --am:     #FFB400;    /* amber warning  */
+  --bg:     #020C06;
+  --bg2:    #040F09;
+  --panel:  rgba(0,255,65,0.035);
+  --bdr:    rgba(0,255,65,0.13);
+  --txt:    #9EC9A8;
+}
 
-				<header class="major container medium">
-					<h2>We help to build and deliver
-					<br />
-					impactful work
-					<br />
-					making the universe a little better</h2>
-					<!--
-					<p>Tellus erat mauris ipsum fermentum<br />
-					etiam vivamus nunc nibh morbi.</p>
-					-->
-				</header>
+/* ── RESET ───────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--txt);
+  font-family: 'IBM Plex Mono', 'Courier New', monospace;
+  font-size: 14px;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--g); text-decoration: none; }
+a:hover { text-decoration: underline; }
 
-				<div class="box alt container">
-					<section class="feature left">
-						<a href="#" class="image icon solid fa-signal"><img src="images/pic01.jpg" alt="" /></a>
-						<div class="content">
-							<h3>Simplify Things</h3>
-							<p>As Complexity exists everywhere today.</p>
-						</div>
-					</section>
-					<section class="feature right">
-						<a href="#" class="image icon solid fa-code"><img src="images/pic02.jpg" alt="" /></a>
-						<div class="content">
-							<h3>To Understand</h3>
-							<p>Attention to every Detail is crucial.</p>
-						</div>
-					</section>
-					<section class="feature left">
-						<a href="#" class="image icon solid fa-mobile-alt"><img src="images/pic03.jpg" alt="" /></a>
-						<div class="content">
-							<h3>Plan and Execute</h3>
-							<p>BluePrint and defined Phased execution.</p>
-						</div>
-					</section>
-				</div>
+/* ── GLOBAL ATMOSPHERE ───────────────────── */
+/* Fine grid */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(0,255,65,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,65,0.025) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+/* Scanlines */
+body::after {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg, transparent, transparent 3px,
+    rgba(0,0,0,0.04) 3px, rgba(0,0,0,0.04) 4px
+  );
+}
 
-				<!--
-				<div class="box container">
-					<header>
-						<h2>A lot of generic stuff</h2>
-					</header>
-					<section>
-						<header>
-							<h3>Paragraph</h3>
-							<p>This is the subtitle for this particular heading</p>
-						</header>
-						<p>Phasellus nisl nisl, varius id <sup>porttitor sed pellentesque</sup> ac orci. Pellentesque
-						habitant <strong>strong</strong> tristique <b>bold</b> et netus <i>italic</i> malesuada <em>emphasized</em> ac turpis egestas. Morbi
-						leo suscipit ut. Praesent <sub>id turpis vitae</sub> turpis pretium ultricies. Vestibulum sit
-						amet risus elit.</p>
-					</section>
-					<section>
-						<header>
-							<h3>Blockquote</h3>
-						</header>
-						<blockquote>Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget.
-						tempus euismod. Vestibulum ante ipsum primis in faucibus.</blockquote>
-					</section>
-					<section>
-						<header>
-							<h3>Divider</h3>
-						</header>
-						<p>Donec consectetur vestibulum dolor et pulvinar. Etiam vel felis enim, at viverra
-						ligula. Ut porttitor sagittis lorem, quis eleifend nisi ornare vel. Praesent nec orci
-						facilisis leo magna. Cras sit amet urna eros, id egestas urna. Quisque aliquam
-						tempus euismod. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
-						posuere cubilia.</p>
-						<hr />
-						<p>Donec consectetur vestibulum dolor et pulvinar. Etiam vel felis enim, at viverra
-						ligula. Ut porttitor sagittis lorem, quis eleifend nisi ornare vel. Praesent nec orci
-						facilisis leo magna. Cras sit amet urna eros, id egestas urna. Quisque aliquam
-						tempus euismod. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
-						posuere cubilia.</p>
-					</section>
-					<section>
-						<header>
-							<h3>Unordered List</h3>
-						</header>
-						<ul class="default">
-							<li>Donec consectetur vestibulum dolor et pulvinar. Etiam vel felis enim, at viverra ligula. Ut porttitor sagittis lorem, quis eleifend nisi ornare vel.</li>
-							<li>Donec consectetur vestibulum dolor et pulvinar. Etiam vel felis enim, at viverra ligula. Ut porttitor sagittis lorem, quis eleifend nisi ornare vel.</li>
-							<li>Donec consectetur vestibulum dolor et pulvinar. Etiam vel felis enim, at viverra ligula. Ut porttitor sagittis lorem, quis eleifend nisi ornare vel.</li>
-							<li>Donec consectetur vestibulum dolor et pulvinar. Etiam vel felis enim, at viverra ligula. Ut porttitor sagittis lorem, quis eleifend nisi ornare vel.</li>
-						</ul>
-					</section>
-					<section>
-						<header>
-							<h3>Ordered List</h3>
-						</header>
-						<ol class="default">
-							<li>Donec consectetur vestibulum dolor et pulvinar. Etiam vel felis enim, at viverra ligula. Ut porttitor sagittis lorem, quis eleifend nisi ornare vel.</li>
-							<li>Donec consectetur vestibulum dolor et pulvinar. Etiam vel felis enim, at viverra ligula. Ut porttitor sagittis lorem, quis eleifend nisi ornare vel.</li>
-							<li>Donec consectetur vestibulum dolor et pulvinar. Etiam vel felis enim, at viverra ligula. Ut porttitor sagittis lorem, quis eleifend nisi ornare vel.</li>
-							<li>Donec consectetur vestibulum dolor et pulvinar. Etiam vel felis enim, at viverra ligula. Ut porttitor sagittis lorem, quis eleifend nisi ornare vel.</li>
-						</ol>
-					</section>
-					<section>
-						<header>
-							<h3>Table</h3>
-						</header>
-						<div class="table-wrapper">
-							<table class="default">
-								<thead>
-									<tr>
-										<th>ID</th>
-										<th>Name</th>
-										<th>Description</th>
-										<th>Price</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>45815</td>
-										<td>Something</td>
-										<td>Ut porttitor sagittis lorem, quis eleifend nisi ornare vel.</td>
-										<td>29.99</td>
-									</tr>
-									<tr>
-										<td>24524</td>
-										<td>Nothing</td>
-										<td>Ut porttitor sagittis lorem, quis eleifend nisi ornare vel.</td>
-										<td>19.99</td>
-									</tr>
-									<tr>
-										<td>45815</td>
-										<td>Something</td>
-										<td>Ut porttitor sagittis lorem, quis eleifend nisi ornare vel.</td>
-										<td>29.99</td>
-									</tr>
-									<tr>
-										<td>24524</td>
-										<td>Nothing</td>
-										<td>Ut porttitor sagittis lorem, quis eleifend nisi ornare vel.</td>
-										<td>19.99</td>
-									</tr>
-								</tbody>
-								<tfoot>
-									<tr>
-										<td colspan="3"></td>
-										<td>100.00</td>
-									</tr>
-								</tfoot>
-							</table>
-						</div>
-					</section>
-					<section>
-						<header>
-							<h3>Form</h3>
-						</header>
-						<form method="post" action="#">
-							<div class="row">
-								<div class="col-6 col-12-mobilep">
-									<label for="name">Name</label>
-									<input class="text" type="text" name="name" id="name" value="" placeholder="John Doe" />
-								</div>
-								<div class="col-6 col-12-mobilep">
-									<label for="email">Email</label>
-									<input class="text" type="text" name="email" id="email" value="" placeholder="johndoe@domain.tld" />
-								</div>
-								<div class="col-12">
-									<label for="subject">Subject</label>
-									<input class="text" type="text" name="subject" id="subject" value="" placeholder="Enter your subject" />
-								</div>
-								<div class="col-12">
-									<label for="subject">Message</label>
-									<textarea name="message" id="message" placeholder="Enter your message" rows="6"></textarea>
-								</div>
-								<div class="col-12">
-									<ul class="actions special">
-										<li><input type="submit" value="Send" /></li>
-										<li><input type="reset" value="Reset" class="alt" /></li>
-									</ul>
-								</div>
-							</div>
-						</form>
-					</section>
-				</div>
-				-->
+/* ── NAV ─────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 54px; padding: 0 36px;
+  background: rgba(2,12,6,0.95);
+  border-bottom: 1px solid var(--bdr);
+  backdrop-filter: blur(10px);
+}
+.nav-logo {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900; font-size: 13px; letter-spacing: 4px;
+  color: var(--g);
+  text-shadow: 0 0 14px var(--g);
+  white-space: nowrap;
+}
+.nav-right {
+  display: flex; align-items: center; gap: 24px;
+  font-size: 9px; letter-spacing: 2px; color: var(--g-dim);
+}
+.nav-clock { font-variant-numeric: tabular-nums; }
+.status-pill {
+  display: flex; align-items: center; gap: 6px;
+  white-space: nowrap;
+}
+.dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--g); box-shadow: 0 0 8px var(--g);
+  animation: blink 1.6s step-end infinite;
+}
+.nav-plays {
+  padding: 6px 16px;
+  border: 1px solid rgba(255,180,0,0.35);
+  color: var(--am); font-size: 9px; letter-spacing: 3px;
+  background: rgba(255,180,0,0.04);
+  border-radius: 2px; transition: all 0.2s;
+  white-space: nowrap;
+}
+.nav-plays:hover {
+  background: rgba(255,180,0,0.1);
+  box-shadow: 0 0 16px rgba(255,180,0,0.25);
+  text-decoration: none;
+}
 
-				<footer class="major container medium">
-					<h3>Get shady with science</h3>
-					<p>Vitae natoque dictum etiam semper magnis enim feugiat amet curabitur tempor orci penatibus. Tellus erat mauris ipsum fermentum etiam vivamus.</p>
-					<ul class="actions special">
-						<li><a href="#" class="button">Join our crew</a></li>
-					</ul>
-				</footer>
+/* ── HERO ────────────────────────────────── */
+.hero {
+  position: relative; z-index: 1;
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 80px 24px 60px; text-align: center;
+}
+.hero-meta {
+  font-size: 9px; letter-spacing: 4px; color: var(--g-dim);
+  margin-bottom: 48px; display: flex; gap: 24px;
+  justify-content: center; flex-wrap: wrap;
+}
+.hero-meta span::before { content: '[ '; }
+.hero-meta span::after  { content: ' ]'; }
 
-			</div>
+/* ── RADAR ───────────────────────────────── */
+.radar {
+  position: relative; width: 240px; height: 240px;
+  margin: 0 auto 52px; flex-shrink: 0;
+}
+.r-ring {
+  position: absolute; border-radius: 50%;
+  border: 1px solid rgba(0,255,65,0.22);
+  inset: 0; transition: border-color 0.3s;
+}
+.r-ring:nth-child(2) { inset: 22%; border-color: rgba(0,255,65,0.18); }
+.r-ring:nth-child(3) { inset: 44%; border-color: rgba(0,255,65,0.28); }
+.r-cross-h, .r-cross-v {
+  position: absolute; background: rgba(0,255,65,0.15);
+}
+.r-cross-h { left: 0; right: 0; top: 50%; height: 1px; transform: translateY(-50%); }
+.r-cross-v { top: 0; bottom: 0; left: 50%; width: 1px; transform: translateX(-50%); }
+.r-sweep {
+  position: absolute; inset: 0; border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg 290deg,
+    rgba(0,255,65,0.06) 290deg 340deg,
+    rgba(0,255,65,0.35) 340deg 360deg
+  );
+  animation: sweep 3.8s linear infinite;
+  transform-origin: center;
+}
+.r-blip {
+  position: absolute; width: 7px; height: 7px; border-radius: 50%;
+  transform: translate(-50%,-50%);
+  animation: blipFade 3.8s ease-in-out infinite;
+}
+.r-b1 { top:38%; left:64%; background:var(--g);  box-shadow:0 0 10px var(--g);  }
+.r-b2 { top:62%; left:30%; background:var(--cy); box-shadow:0 0 10px var(--cy); animation-delay:1.3s; }
+.r-b3 { top:25%; left:48%; background:var(--am); box-shadow:0 0 10px var(--am); animation-delay:2.6s; }
+.r-label {
+  position: absolute; bottom:-32px; left:50%;
+  transform: translateX(-50%);
+  font-size: 8px; letter-spacing: 4px; color: var(--g-dim); white-space: nowrap;
+}
 
-		<!-- Footer -->
-			<div id="footer">
-				<div class="container medium">
+.hero-eyebrow {
+  font-size: 9px; letter-spacing: 6px; color: var(--g-dim);
+  margin-bottom: 14px; text-transform: uppercase;
+}
+.hero-title {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900; font-size: clamp(32px, 6vw, 60px);
+  letter-spacing: 6px; color: #fff; line-height: 1.1;
+  text-shadow: 0 0 40px rgba(0,255,65,0.2);
+  margin-bottom: 6px;
+}
+.hero-title .accent { color: var(--g); text-shadow: 0 0 28px var(--g); }
+.hero-rule {
+  width: 60px; height: 1px;
+  background: linear-gradient(to right, transparent, var(--g), transparent);
+  margin: 24px auto;
+}
+.hero-sub {
+  font-size: 13px; line-height: 1.9; color: var(--txt);
+  max-width: 500px; margin: 0 auto 44px;
+  text-align: left;
+  padding: 20px 24px;
+  border: 1px solid var(--bdr);
+  background: var(--panel);
+  border-radius: 2px;
+}
+.hero-sub .prompt { color: var(--g-dim); }
+.cursor { animation: blink 0.9s step-end infinite; }
 
-					<header class="major last">
-						<h2>Questions or comments?</h2>
-					</header>
+.hero-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 36px;
+  border: 1px solid var(--g);
+  color: var(--g); background: rgba(0,255,65,0.04);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px; letter-spacing: 4px; border-radius: 2px;
+  transition: all 0.25s; cursor: pointer;
+}
+.hero-btn:hover {
+  background: rgba(0,255,65,0.1);
+  box-shadow: 0 0 28px rgba(0,255,65,0.22);
+  text-decoration: none;
+}
+.hero-scroll {
+  position: absolute; bottom: 30px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 8px; letter-spacing: 4px; color: var(--g-dim);
+  animation: blink 2.4s step-end infinite;
+}
 
-					<p>Vitae natoque dictum etiam semper magnis enim feugiat amet curabitur tempor
-					orci penatibus. Tellus erat mauris ipsum fermentum etiam vivamus.</p>
+/* ── SECTIONS ────────────────────────────── */
+section.blk {
+  position: relative; z-index: 1;
+  padding: 88px 36px;
+}
+.inner { max-width: 1080px; margin: 0 auto; }
+.s-eye {
+  font-size: 8px; letter-spacing: 5px; color: var(--g-dim);
+  margin-bottom: 6px;
+}
+.s-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 14px; font-weight: 700; letter-spacing: 3px;
+  color: var(--g); padding-bottom: 14px; margin-bottom: 40px;
+  border-bottom: 1px solid var(--bdr);
+}
+.s-title::before { content: '// '; opacity: 0.4; }
 
-					<form method="post" action="#">
-						<div class="row">
-							<div class="col-6 col-12-mobilep">
-								<input type="text" name="name" placeholder="Name" />
-							</div>
-							<div class="col-6 col-12-mobilep">
-								<input type="email" name="email" placeholder="Email" />
-							</div>
-							<div class="col-12">
-								<textarea name="message" placeholder="Message" rows="6"></textarea>
-							</div>
-							<div class="col-12">
-								<ul class="actions special">
-									<li><input type="submit" value="Send Message" /></li>
-								</ul>
-							</div>
-						</div>
-					</form>
+/* ── MISSION TILES ───────────────────────── */
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 1px; background: var(--bdr);
+  border: 1px solid var(--bdr);
+}
+.tile {
+  background: var(--bg);
+  padding: 32px 28px; position: relative; overflow: hidden;
+  transition: background 0.2s;
+}
+.tile::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(0,255,65,0.05), transparent 60%);
+  opacity: 0; transition: opacity 0.25s;
+}
+.tile:hover { background: var(--bg2); }
+.tile:hover::after { opacity: 1; }
+.tile-id {
+  font-size: 8px; letter-spacing: 3px; color: var(--g-dim);
+  margin-bottom: 20px;
+}
+.tile-glyph { font-size: 30px; margin-bottom: 16px; line-height: 1; }
+.tile-name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 12px; font-weight: 700; letter-spacing: 3px;
+  color: var(--g); margin-bottom: 14px;
+}
+.tile-copy {
+  font-size: 12px; line-height: 1.85; font-weight: 300;
+  color: var(--txt);
+}
+.bars {
+  display: flex; gap: 3px; margin-top: 24px; align-items: flex-end; height: 22px;
+}
+.bar {
+  width: 5px; border-radius: 1px;
+  background: var(--g); opacity: 0.15; transition: opacity 0.3s;
+}
+.bar.on { opacity: 0.9; box-shadow: 0 0 4px var(--g); }
 
-					<ul class="icons">
-						<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-						<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-						<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-						<li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
-						<li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
-					</ul>
+/* ── TELEMETRY STRIP ─────────────────────── */
+.tel-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1px; background: var(--bdr);
+  border: 1px solid var(--bdr);
+  margin-top: 40px;
+}
+.tel {
+  background: var(--bg);
+  padding: 22px 26px;
+}
+.tel-lbl { font-size: 8px; letter-spacing: 3px; color: var(--g-dim); }
+.tel-val {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 26px; font-weight: 700; color: var(--g);
+  text-shadow: 0 0 12px rgba(0,255,65,0.4);
+  margin: 6px 0 3px;
+  font-variant-numeric: tabular-nums;
+}
+.tel-unit { font-size: 8px; letter-spacing: 3px; color: var(--g-dim); }
 
-					<ul class="copyright">
-						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="Always">Reserved</a></li>
-					</ul>
+/* ── LOG FEED ────────────────────────────── */
+.log-feed {
+  border: 1px solid var(--bdr);
+  background: var(--panel);
+  padding: 0; overflow: hidden;
+}
+.log-header {
+  background: rgba(0,255,65,0.06);
+  border-bottom: 1px solid var(--bdr);
+  padding: 10px 20px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 8px; letter-spacing: 3px; color: var(--g-dim);
+}
+.rec { display: flex; align-items: center; gap: 6px; }
+.rec-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--am); animation: blink 0.8s step-end infinite;
+}
+.log-entry {
+  padding: 12px 20px;
+  border-bottom: 1px solid rgba(0,255,65,0.06);
+  font-size: 11px; color: var(--txt);
+  display: flex; gap: 16px; align-items: flex-start;
+  transition: background 0.15s;
+}
+.log-entry:hover { background: rgba(0,255,65,0.03); }
+.log-entry:last-child { border-bottom: none; }
+.log-ts { color: var(--g-dim); white-space: nowrap; flex-shrink: 0; font-size: 10px; }
+.log-tag { 
+  color: var(--g); white-space: nowrap; flex-shrink: 0;
+  font-size: 9px; letter-spacing: 1px;
+}
+.log-msg { font-weight: 300; line-height: 1.6; }
 
-				</div>
-			</div>
+/* ── PLAYS CTA ───────────────────────────── */
+.plays-cta {
+  position: relative; z-index: 1;
+  padding: 96px 36px;
+  background: rgba(0,229,255,0.015);
+  border-top: 1px solid rgba(0,229,255,0.1);
+  border-bottom: 1px solid rgba(0,229,255,0.1);
+  text-align: center;
+  overflow: hidden;
+}
+.plays-cta::before {
+  content: '';
+  position: absolute; left: 50%; top: 50%;
+  width: 600px; height: 600px;
+  transform: translate(-50%,-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,229,255,0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+.auth-badge {
+  display: inline-block;
+  font-size: 8px; letter-spacing: 4px;
+  color: var(--am); border: 1px solid rgba(255,180,0,0.3);
+  padding: 6px 16px; margin-bottom: 28px;
+  background: rgba(255,180,0,0.04);
+}
+.plays-title {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900; font-size: clamp(24px, 4vw, 44px);
+  letter-spacing: 4px; color: #fff; margin-bottom: 20px;
+  line-height: 1.2;
+}
+.plays-title .cy { color: var(--cy); text-shadow: 0 0 22px var(--cy); }
+.plays-desc {
+  font-size: 12px; line-height: 2; color: var(--txt);
+  max-width: 420px; margin: 0 auto 40px; font-weight: 300;
+}
+.plays-btn {
+  display: inline-flex; align-items: center; gap: 12px;
+  padding: 16px 44px;
+  border: 1px solid var(--cy);
+  color: var(--cy); background: rgba(0,229,255,0.06);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px; letter-spacing: 4px; border-radius: 2px;
+  transition: all 0.25s; cursor: pointer;
+}
+.plays-btn:hover {
+  background: rgba(0,229,255,0.12);
+  box-shadow: 0 0 36px rgba(0,229,255,0.18);
+  text-decoration: none;
+}
+.auth-note {
+  margin-top: 18px; font-size: 9px; letter-spacing: 3px;
+  color: var(--g-dim);
+}
 
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+/* ── FOOTER ──────────────────────────────── */
+footer {
+  position: relative; z-index: 1;
+  border-top: 1px solid var(--bdr);
+  padding: 28px 36px;
+  display: flex; flex-wrap: wrap; gap: 12px;
+  justify-content: space-between; align-items: center;
+  font-size: 9px; letter-spacing: 2px; color: var(--g-dim);
+}
+.f-logo {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 10px; font-weight: 700; letter-spacing: 4px;
+  color: var(--g); opacity: 0.6;
+}
+.f-links { display: flex; gap: 20px; }
+.f-links a { color: var(--g-dim); font-size: 9px; letter-spacing: 2px; }
+.f-links a:hover { color: var(--g); text-decoration: none; }
 
-	</body>
+/* ── ANIMATIONS ──────────────────────────── */
+@keyframes sweep { to { transform: rotate(360deg); } }
+@keyframes blink  { 0%,100%{opacity:1} 50%{opacity:0} }
+@keyframes blipFade { 0%,100%{opacity:.15;transform:translate(-50%,-50%) scale(.7)} 50%{opacity:1;transform:translate(-50%,-50%) scale(1.3)} }
+@keyframes rise { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+/* Entrance reveal */
+.reveal { opacity: 0; animation: rise 0.7s ease forwards; }
+.d1 { animation-delay: 0.1s; }
+.d2 { animation-delay: 0.22s; }
+.d3 { animation-delay: 0.34s; }
+.d4 { animation-delay: 0.46s; }
+
+/* ── RESPONSIVE ──────────────────────────── */
+@media (max-width: 680px) {
+  nav { padding: 0 18px; }
+  .nav-clock, .status-pill { display: none; }
+  section.blk { padding: 60px 18px; }
+  .plays-cta { padding: 60px 18px; }
+  footer { padding: 24px 18px; flex-direction: column; text-align: center; }
+  .f-links { justify-content: center; }
+  .hero-sub { font-size: 12px; }
+}
+@media (max-width: 420px) {
+  .hero-title { font-size: 28px; letter-spacing: 3px; }
+  .radar { width: 180px; height: 180px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════
+     NAV
+════════════════════════════════════════ -->
+<nav>
+  <div class="nav-logo">OAKON//LABS</div>
+  <div class="nav-right">
+    <span class="nav-clock" id="nav-clock">UTC 00:00:00</span>
+    <span class="status-pill"><span class="dot"></span> SYSTEM ACTIVE</span>
+    <a href="/plays" class="nav-plays">⟶ PLAYS</a>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════
+     HERO
+════════════════════════════════════════ -->
+<header class="hero">
+
+  <div class="hero-meta reveal d1">
+    <span id="hero-date">2026.05.12</span>
+    <span>MISSION CONTROL</span>
+    <span>STATION ALPHA</span>
+  </div>
+
+  <!-- Radar -->
+  <div class="radar reveal d2">
+    <div class="r-ring"></div>
+    <div class="r-ring"></div>
+    <div class="r-ring"></div>
+    <div class="r-cross-h"></div>
+    <div class="r-cross-v"></div>
+    <div class="r-sweep"></div>
+    <div class="r-blip r-b1"></div>
+    <div class="r-blip r-b2"></div>
+    <div class="r-blip r-b3"></div>
+    <div class="r-label">ORBITAL SCAN · ACTIVE</div>
+  </div>
+
+  <p class="hero-eyebrow reveal d2">DIRECTIVE · STATION OAKON</p>
+
+  <h1 class="hero-title reveal d3">
+    OAKON<span class="accent">LABS</span>
+  </h1>
+
+  <div class="hero-rule reveal d3"></div>
+
+  <div class="hero-sub reveal d4">
+    <span class="prompt">&gt;&gt; </span>We build and deliver impactful work —<br>
+    <span class="prompt">&gt;&gt; </span>simplifying complexity, attending to every detail,<br>
+    <span class="prompt">&gt;&gt; </span>making the universe a little better.<br>
+    <span class="prompt">&gt;&gt; </span><span class="cursor">_</span>
+  </div>
+
+  <a href="#mission" class="hero-btn reveal d4">
+    ▶ VIEW MISSION PARAMETERS
+  </a>
+
+  <div class="hero-scroll">▼ SCROLL TO CONTINUE ▼</div>
+
+</header>
+
+<!-- ════════════════════════════════════════
+     MISSION PARAMETERS
+════════════════════════════════════════ -->
+<section class="blk" id="mission">
+<div class="inner">
+
+  <div class="s-eye">DIRECTIVE-001</div>
+  <div class="s-title">MISSION PARAMETERS</div>
+
+  <div class="tiles">
+
+    <div class="tile">
+      <div class="tile-id">NODE·01 // ALPHA</div>
+      <div class="tile-glyph">◈</div>
+      <div class="tile-name">SIMPLIFY</div>
+      <div class="tile-copy">
+        Complexity exists everywhere today. We strip systems down to their essential signal — eliminating noise, reducing drag, enabling clarity of action at every layer of the stack.
+      </div>
+      <div class="bars">
+        <div class="bar on" style="height:7px"></div>
+        <div class="bar on" style="height:11px"></div>
+        <div class="bar on" style="height:16px"></div>
+        <div class="bar on" style="height:12px"></div>
+        <div class="bar"    style="height:8px"></div>
+      </div>
+    </div>
+
+    <div class="tile">
+      <div class="tile-id">NODE·02 // BETA</div>
+      <div class="tile-glyph">⊛</div>
+      <div class="tile-name">UNDERSTAND</div>
+      <div class="tile-copy">
+        Attention to every detail is crucial. Deep analysis transforms ambiguous data into actionable intelligence — turning raw signals into precision-targeted decisions.
+      </div>
+      <div class="bars">
+        <div class="bar on" style="height:7px"></div>
+        <div class="bar on" style="height:13px"></div>
+        <div class="bar on" style="height:20px"></div>
+        <div class="bar on" style="height:14px"></div>
+        <div class="bar on" style="height:9px"></div>
+      </div>
+    </div>
+
+    <div class="tile">
+      <div class="tile-id">NODE·03 // GAMMA</div>
+      <div class="tile-glyph">⬡</div>
+      <div class="tile-name">EXECUTE</div>
+      <div class="tile-copy">
+        Blueprint-driven, phased delivery. Defined milestones, measured progress, decisive execution. From initial signal acquisition to measurable impact on the ground.
+      </div>
+      <div class="bars">
+        <div class="bar on" style="height:6px"></div>
+        <div class="bar on" style="height:10px"></div>
+        <div class="bar on" style="height:14px"></div>
+        <div class="bar on" style="height:18px"></div>
+        <div class="bar on" style="height:22px"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Telemetry strip -->
+  <div class="tel-strip">
+    <div class="tel">
+      <div class="tel-lbl">SYSTEM UPTIME</div>
+      <div class="tel-val">99.9</div>
+      <div class="tel-unit">PERCENT</div>
+    </div>
+    <div class="tel">
+      <div class="tel-lbl">ACTIVE NODES</div>
+      <div class="tel-val">3</div>
+      <div class="tel-unit">ONLINE</div>
+    </div>
+    <div class="tel">
+      <div class="tel-lbl">SIGNAL LOCK</div>
+      <div class="tel-val">ACQ</div>
+      <div class="tel-unit">ACQUIRED</div>
+    </div>
+    <div class="tel">
+      <div class="tel-lbl">MISSION STATUS</div>
+      <div class="tel-val">GO</div>
+      <div class="tel-unit">ALL SYSTEMS</div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- ════════════════════════════════════════
+     OPERATIONAL LOG
+════════════════════════════════════════ -->
+<section class="blk" style="padding-top:0">
+<div class="inner">
+
+  <div class="s-eye">DIRECTIVE-002</div>
+  <div class="s-title">OPERATIONAL LOG</div>
+
+  <div class="log-feed">
+    <div class="log-header">
+      <span>LIVE TRANSMISSION FEED</span>
+      <span class="rec"><span class="rec-dot"></span>REC</span>
+    </div>
+    <div class="log-entry">
+      <span class="log-ts" id="ts1">2026.05.12 00:00</span>
+      <span class="log-tag">[INIT]</span>
+      <span class="log-msg">Station OAKON online. All subsystems nominal. Beginning orbital surveillance sweep.</span>
+    </div>
+    <div class="log-entry">
+      <span class="log-ts" id="ts2">2026.05.12 00:00</span>
+      <span class="log-tag">[NODE·01]</span>
+      <span class="log-msg">Complexity reduction protocol active. Signal clarity threshold exceeded on all channels.</span>
+    </div>
+    <div class="log-entry">
+      <span class="log-ts" id="ts3">2026.05.12 00:00</span>
+      <span class="log-tag">[NODE·02]</span>
+      <span class="log-msg">Deep pattern analysis running. Intelligence synthesis pipeline at full capacity.</span>
+    </div>
+    <div class="log-entry">
+      <span class="log-ts" id="ts4">2026.05.12 00:00</span>
+      <span class="log-tag">[NODE·03]</span>
+      <span class="log-msg">Execution phase underway. Milestone tracking enabled. Delivery vector confirmed.</span>
+    </div>
+    <div class="log-entry">
+      <span class="log-ts" id="ts5">2026.05.12 00:00</span>
+      <span class="log-tag">[PLAYS]</span>
+      <span class="log-msg">Secure operations console available. Google SSO authentication required for access.</span>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- ════════════════════════════════════════
+     PLAYS CTA
+════════════════════════════════════════ -->
+<section class="plays-cta">
+
+  <div class="auth-badge">⚿ &nbsp;AUTHENTICATION REQUIRED</div>
+
+  <h2 class="plays-title">
+    ENTER THE<br><span class="cy">PLAYS</span> CONSOLE
+  </h2>
+
+  <p class="plays-desc">
+    Access restricted to authorized personnel.<br>
+    Google SSO authentication required.<br>
+    Secure channel · Federated identity.
+  </p>
+
+  <a href="/plays" class="plays-btn">
+    ⟶ &nbsp;AUTHENTICATE &amp; ENTER
+  </a>
+
+  <div class="auth-note">
+    GOOGLE AUTH · FEDERATED SSO · END-TO-END ENCRYPTED
+  </div>
+
+</section>
+
+<!-- ════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+<footer>
+  <div class="f-logo">OAKON//LABS</div>
+  <div id="footer-ts" style="font-variant-numeric:tabular-nums">UTC 2026.05.12 · 00:00:00Z</div>
+  <div class="f-links">
+    <a href="mailto:your_email@example.com">CONTACT</a>
+    <a href="/plays">PLAYS</a>
+  </div>
+  <div>© 2026 OAKON LABS</div>
+</footer>
+
+<!-- ════════════════════════════════════════
+     SCRIPTS
+════════════════════════════════════════ -->
+<script>
+/* ── UTC CLOCK ── */
+function pad(n) { return String(n).padStart(2,'0'); }
+
+function tick() {
+  const now = new Date();
+  const Y  = now.getUTCFullYear();
+  const Mo = pad(now.getUTCMonth() + 1);
+  const D  = pad(now.getUTCDate());
+  const H  = pad(now.getUTCHours());
+  const Mi = pad(now.getUTCMinutes());
+  const S  = pad(now.getUTCSeconds());
+
+  const dateStr = `${Y}.${Mo}.${D}`;
+  document.getElementById('nav-clock').textContent  = `UTC ${H}:${Mi}:${S}`;
+  document.getElementById('hero-date').textContent  = dateStr;
+  document.getElementById('footer-ts').textContent  = `UTC ${dateStr} · ${H}:${Mi}:${S}Z`;
+
+  /* Live log timestamps */
+  const base = [0, -180, -360, -520, -680];
+  base.forEach((offset, i) => {
+    const t = new Date(now.getTime() + offset * 1000);
+    const tH  = pad(t.getUTCHours());
+    const tMi = pad(t.getUTCMinutes());
+    const tY  = t.getUTCFullYear();
+    const tMo = pad(t.getUTCMonth()+1);
+    const tD  = pad(t.getUTCDate());
+    const el  = document.getElementById('ts'+(i+1));
+    if (el) el.textContent = `${tY}.${tMo}.${tD} ${tH}:${tMi}`;
+  });
+}
+tick();
+setInterval(tick, 1000);
+
+/* ── INTERSECTION-TRIGGERED REVEAL ── */
+if ('IntersectionObserver' in window) {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '';
+        e.target.style.animation = 'rise 0.65s ease forwards';
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.tile, .tel, .log-entry').forEach(el => {
+    el.style.opacity = '0';
+    obs.observe(el);
+  });
+}
+
+/* ── RADAR BLIP RETRIGGER ON SWEEP PASS ── */
+(function() {
+  const blips   = document.querySelectorAll('.r-blip');
+  const PERIOD  = 3800; // ms, matches CSS animation-duration
+  const offsets = [0, 1300, 2600];
+  blips.forEach((b, i) => {
+    b.style.animationDelay = `${offsets[i]}ms`;
+  });
+})();
+
+/* ── SMOOTH ANCHOR SCROLL (fallback for older browsers) ── */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', function(e) {
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+});
+</script>
+
+</body>
 </html>
