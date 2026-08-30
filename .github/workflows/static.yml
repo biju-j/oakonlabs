@@ -1,43 +1,77 @@
-# Simple workflow for deploying static content to GitHub Pages
+# .github/workflows/static.yml
 name: Deploy static content to Pages
 
 on:
-  # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
 jobs:
-  # Single deploy job since we're just deploying
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+
     steps:
+      # ── 1. Checkout ─────────────────────────────────────────────
       - name: Checkout
         uses: actions/checkout@v4
+
+      # ── 2. Inject all secrets into plays/index.html ─────────────
+      #    Firebase config, whitelist and tab names are baked directly
+      #    into the HTML — tabs.json is never deployed publicly.
+      - name: Inject secrets into plays/index.html
+        env:
+          GMAIL_WHITELIST:              ${{ secrets.GMAIL_WHITELIST }}
+          MAIN_TABS:                    ${{ secrets.MAIN_TABS }}
+          FIREBASE_API_KEY:             ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_AUTH_DOMAIN:         ${{ secrets.FIREBASE_AUTH_DOMAIN }}
+          FIREBASE_PROJECT_ID:          ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_STORAGE_BUCKET:      ${{ secrets.FIREBASE_STORAGE_BUCKET }}
+          FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
+          FIREBASE_APP_ID:              ${{ secrets.FIREBASE_APP_ID }}
+        run: |
+          sed -i \
+            -e "s|__GMAIL_WHITELIST__|${GMAIL_WHITELIST}|g" \
+            -e "s|__MAIN_TABS__|${MAIN_TABS}|g" \
+            -e "s|__FIREBASE_API_KEY__|${FIREBASE_API_KEY}|g" \
+            -e "s|__FIREBASE_AUTH_DOMAIN__|${FIREBASE_AUTH_DOMAIN}|g" \
+            -e "s|__FIREBASE_PROJECT_ID__|${FIREBASE_PROJECT_ID}|g" \
+            -e "s|__FIREBASE_STORAGE_BUCKET__|${FIREBASE_STORAGE_BUCKET}|g" \
+            -e "s|__FIREBASE_MESSAGING_SENDER_ID__|${FIREBASE_MESSAGING_SENDER_ID}|g" \
+            -e "s|__FIREBASE_APP_ID__|${FIREBASE_APP_ID}|g" \
+            plays/index.html
+          echo "✅ All secrets injected into plays/index.html"
+
+      # ── 3. Remove data/tabs.json before upload ──────────────────
+      #    Config is now baked into the HTML — tabs.json must NOT
+      #    be deployed publicly as it contains placeholder values.
+      - name: Remove tabs.json from deployment
+        run: |
+          rm -f data/tabs.json
+          echo "✅ data/tabs.json removed — will not be deployed"
+
+      # ── 4. Setup Pages ──────────────────────────────────────────
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
+      # ── 5. Upload artifact (patched HTML, no tabs.json) ─────────
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
           path: '.'
+
+      # ── 6. Deploy ───────────────────────────────────────────────
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
