@@ -305,13 +305,23 @@ body::after {
    CONFIG
 ═══════════════════════════════════════════════════════════════ */
 
-// ── Whitelist: injected by GitHub Actions from Variable GMAIL_WHITELIST
-// ── Format at build time: "email1@gmail.com,email2@gmail.com"
+// ── Whitelist — injected by GitHub Actions from Secret GMAIL_WHITELIST ─────
 const WHITELIST = "__GMAIL_WHITELIST__".split(',').map(e => e.trim().toLowerCase()).filter(Boolean);
 
-// ── tabs.json URL — injected by GitHub Actions from Variable GITHUB_TABS_URL
-// ── Points at the gh-pages branch where secrets have already been substituted
-const GITHUB_TABS_URL = "__GITHUB_TABS_URL__";
+// ── Tab names — injected by GitHub Actions from Secret MAIN_TABS ─────────────
+// ── Format: "Holdings,Review,Exits"
+const MAIN_TABS = "__MAIN_TABS__".split(',').map(t => t.trim()).filter(Boolean);
+
+// ── Firebase config — injected by GitHub Actions from Secrets ────────────────
+// ── tabs.json is NOT deployed; config lives only in this baked-in HTML file
+const FB_CONFIG = {
+  apiKey:            "__FIREBASE_API_KEY__",
+  authDomain:        "__FIREBASE_AUTH_DOMAIN__",
+  projectId:         "__FIREBASE_PROJECT_ID__",
+  storageBucket:     "__FIREBASE_STORAGE_BUCKET__",
+  messagingSenderId: "__FIREBASE_MESSAGING_SENDER_ID__",
+  appId:             "__FIREBASE_APP_ID__",
+};
 
 /* ═══════════════════════════════════════════════════════════════
    STATE
@@ -385,24 +395,11 @@ async function onAuthorised(user) {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   LOAD TABS.JSON → FIREBASE → CARDS
+   BOOT DASHBOARD — no fetch needed, all config baked in at build
 ═══════════════════════════════════════════════════════════════ */
 async function loadTabsAndFirebase() {
-  let tabs       = ["Holdings", "Review", "Exits"];
-  let fbConfig   = null;
-
-  // ── Fetch GitHub config ──────────────────────────────────────
-  try {
-    const res = await fetch(GITHUB_TABS_URL, { cache: 'no-store' });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const cfg  = await res.json();
-    if (Array.isArray(cfg.main_tabs) && cfg.main_tabs.length) tabs = cfg.main_tabs;
-    if (cfg.firebase && cfg.firebase.projectId) fbConfig = cfg.firebase;
-  } catch (err) {
-    console.warn('tabs.json fetch failed — using defaults.', err);
-  }
-
-  // ── Render tab buttons ───────────────────────────────────────
+  // ── Render tab buttons from baked-in MAIN_TABS ───────────────
+  const tabs = MAIN_TABS.length ? MAIN_TABS : ["Holdings", "Review", "Exits"];
   currentTab = tabs[0];
   const wrap = document.getElementById('tabs-wrap');
   wrap.innerHTML = '';
@@ -415,23 +412,23 @@ async function loadTabsAndFirebase() {
     wrap.appendChild(btn);
   });
 
-  // ── Init Firebase dynamically (config from JSON) ─────────────
-  if (fbConfig) {
+  // ── Init Firebase from baked-in FB_CONFIG ────────────────────
+  if (FB_CONFIG.projectId && !FB_CONFIG.projectId.startsWith('__')) {
     try {
-      const { initializeApp }                  = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js");
+      const { initializeApp }                     = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js");
       const { getFirestore, collection, getDocs } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
 
-      const app = initializeApp(fbConfig, 'plays-portal');
+      const app = initializeApp(FB_CONFIG, 'plays-portal');
       db = getFirestore(app);
       firebaseReady = true;
 
       await loadCards(getDocs, collection);
     } catch(fbErr) {
       console.error('Firebase init error:', fbErr);
-      showGridError('Firebase connection failed. Check tabs.json firebase config.');
+      showGridError('Firebase connection failed. Check GitHub Secrets.');
     }
   } else {
-    // No Firebase config — show demo cards so the UI isn't empty
+    // Secrets not yet injected — show demo cards
     renderDemoCards();
   }
 }
