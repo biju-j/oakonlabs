@@ -675,9 +675,22 @@ function buildWatchCard(card) {
     ? `<div class="watch-detail"><span>Target</span><strong>${escHtml(card.target)}</strong></div>` : '';
 
   _html(wrap, `
-    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:10px">
-      <div class="watch-name">${escHtml(card.company)}</div>
-      <span class="watch-date">${dateFmt}</span>
+    <div class="watch-top">
+      <div class="watch-scan">
+        <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="26" cy="26" r="24" class="scan-ring"/>
+          <circle cx="26" cy="26" r="16" class="scan-ring" opacity=".6"/>
+          <circle cx="26" cy="26" r="8"  class="scan-ring" opacity=".4"/>
+          <line x1="26" y1="26" x2="26" y2="4" class="scan-line"/>
+          <circle cx="26" cy="4" r="2" class="scan-dot"/>
+          <line x1="2"  y1="26" x2="50" y2="26" class="scan-ring" stroke-dasharray="3 3"/>
+          <line x1="26" y1="2"  x2="26" y2="50" class="scan-ring" stroke-dasharray="3 3"/>
+        </svg>
+      </div>
+      <div class="watch-info">
+        <div class="watch-name">${escHtml(card.company)}</div>
+        <div class="watch-date">${dateFmt}</div>
+      </div>
     </div>
     ${priceHtml || targetHtml
       ? `<div class="watch-divider"></div>${priceHtml}${targetHtml}`
