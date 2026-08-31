@@ -168,67 +168,69 @@ body::after {
 
 /* ── KEEP-STYLE CARD ─────────────────────────────────────────── */
 .keep-card {
-  border-radius:16px; padding:26px 24px 22px;
-  min-height:220px; position:relative; overflow:hidden;
-  display:flex; flex-direction:column; justify-content:space-between;
+  border-radius:24px; padding:24px 24px 0;
+  min-height:260px; position:relative; overflow:hidden;
+  display:flex; flex-direction:column;
   transition:transform 0.22s ease, box-shadow 0.22s ease;
-  cursor:default;
-}
-.keep-card::before {
-  content:''; position:absolute; inset:0; border-radius:16px;
-  background:linear-gradient(135deg,rgba(255,255,255,0.08) 0%,transparent 60%);
-  pointer-events:none;
+  cursor:default; border:none;
 }
 .keep-card:hover {
-  transform:translateY(-5px);
-  box-shadow:0 12px 28px rgba(0,0,0,0.45);
+  transform:translateY(-6px);
+  box-shadow:0 16px 36px rgba(0,0,0,0.35);
 }
-
-/* Corner glyph deco */
-.keep-card::after {
-  content:'◈'; position:absolute; bottom:14px; right:16px;
-  font-size:30px; opacity:0.12; color:#fff; pointer-events:none;
-  font-family:'IBM Plex Mono',monospace;
+.card-header-row {
+  display:flex; justify-content:space-between; align-items:flex-start; gap:8px;
 }
-
 .card-title {
   font-family:'Orbitron',sans-serif;
-  font-size:22px; font-weight:700; color:#fff;
-  letter-spacing:1px; word-break:break-word; line-height:1.2;
+  font-size:18px; font-weight:900; color:rgba(0,0,0,0.82);
+  letter-spacing:0; word-break:break-word; line-height:1.2;
+}
+.card-arrow {
+  font-size:18px; color:rgba(0,0,0,0.4); flex-shrink:0; margin-top:2px;
+}
+.card-desc {
+  font-size:12px; color:rgba(0,0,0,0.55); line-height:1.7;
+  margin-top:8px; font-family:'IBM Plex Mono',monospace; font-weight:300;
 }
 .card-date {
-  font-size:11px; color:rgba(255,255,255,0.75);
-  margin-top:7px; letter-spacing:2px;
+  font-size:10px; color:rgba(0,0,0,0.4);
+  letter-spacing:1px; margin-top:4px;
 }
-
+.card-illustration {
+  flex:1; display:flex; align-items:flex-end; justify-content:flex-end;
+  padding-bottom:4px; padding-right:4px; overflow:hidden; margin-top:12px;
+}
+.card-ticker-big {
+  font-family:'Orbitron',sans-serif; font-size:72px; font-weight:900;
+  color:rgba(0,0,0,0.09); line-height:1; letter-spacing:-2px;
+  user-select:none; white-space:nowrap;
+}
 /* Details — revealed on hover */
 .card-details {
   max-height:0; opacity:0; overflow:hidden;
   transition:max-height 0.28s ease, opacity 0.28s ease, margin-top 0.28s ease, padding-top 0.28s ease;
-  border-top:1px solid rgba(255,255,255,0.2);
+  border-top:1px solid rgba(0,0,0,0.12);
   margin-top:0; padding-top:0;
 }
 .keep-card:hover .card-details {
-  max-height:120px; opacity:1; margin-top:14px; padding-top:10px;
+  max-height:120px; opacity:1; margin-top:12px; padding-top:10px;
 }
 .detail-row {
   display:flex; justify-content:space-between; align-items:center;
-  font-size:12px; color:#fff; margin-bottom:5px; letter-spacing:1px;
+  font-size:12px; color:rgba(0,0,0,0.65); margin-bottom:5px; letter-spacing:1px;
 }
-.detail-row span { opacity:0.75; }
-.detail-row strong { font-weight:700; }
-
-/* Status pill on card */
+.detail-row span { opacity:0.65; }
+.detail-row strong { font-weight:700; color:rgba(0,0,0,0.82); }
+/* Status pill */
 .card-status {
   display:inline-flex; align-items:center; gap:5px;
   padding:3px 9px; border-radius:20px;
-  background:rgba(255,255,255,0.15);
-  font-size:9px; letter-spacing:2px; color:#fff;
-  align-self:flex-start; margin-bottom:8px;
+  background:rgba(0,0,0,0.1);
+  font-size:9px; letter-spacing:2px; color:rgba(0,0,0,0.6);
+  align-self:flex-start; margin-bottom:6px;
 }
-.card-status .sdot {
-  width:5px; height:5px; border-radius:50%; background:#fff;
-}
+.card-status .sdot { width:5px; height:5px; border-radius:50%; background:rgba(0,0,0,0.5); }
 
 /* ── SKELETON LOADER ─────────────────────────────────────────── */
 .skel {
@@ -240,15 +242,122 @@ body::after {
 
 /* ── WATCH CARD (Review tab) ─────────────────────────────────── */
 .watch-card {
-  border-radius:16px; padding:22px 22px 18px;
-  background:#3AABCC; border:1px solid rgba(255,255,255,0.15);
+  border-radius:24px; padding:20px 20px 16px;
+  background:#fff; border:none;
   display:flex; flex-direction:column; gap:0;
   transition:transform 0.22s ease, box-shadow 0.22s ease;
-  position:relative; overflow:hidden; min-height:200px;
+  position:relative; overflow:hidden; min-height:260px;
 }
 .watch-card:hover {
-  transform:translateY(-5px);
-  box-shadow:0 12px 28px rgba(58,171,204,0.4);
+  transform:translateY(-6px);
+  box-shadow:0 16px 32px rgba(0,0,0,0.18);
+}
+/* Magnify scene */
+.magnify-scene {
+  flex:1; position:relative; display:flex;
+  align-items:center; justify-content:center;
+  min-height:160px; overflow:hidden;
+}
+.magnify-glow {
+  position:absolute; width:110px; height:110px; border-radius:50%;
+  background:radial-gradient(circle, rgba(255,210,120,0.35) 0%, transparent 70%);
+  top:50%; left:50%; transform:translate(-50%,-55%);
+}
+/* Papers */
+.mpaper {
+  position:absolute; width:38px; height:48px;
+  background:#fff; border-radius:3px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.14);
+  display:flex; flex-direction:column; justify-content:center;
+  padding:6px 5px; gap:4px;
+}
+.mpaper-line {
+  height:2.5px; background:#d0d0d8; border-radius:1px;
+}
+.mpaper-line:last-child { width:65%; }
+.mpaper.p1 { top:12%; left:6%;  animation:floatPaper1 4s ease-in-out infinite; }
+.mpaper.p2 { top:5%;  right:8%; animation:floatPaper2 4.5s ease-in-out infinite .5s; }
+.mpaper.p3 { bottom:10%; left:2%; animation:floatPaper3 3.8s ease-in-out infinite 1s; }
+.mpaper.p4 { bottom:8%; right:5%; animation:floatPaper4 4.2s ease-in-out infinite .3s; }
+.mpaper.p5 { top:28%; right:0%; animation:floatPaper2 5s ease-in-out infinite .8s; }
+@keyframes floatPaper1 { 0%,100%{transform:rotate(-8deg) translateY(0)} 50%{transform:rotate(-5deg) translateY(-7px)} }
+@keyframes floatPaper2 { 0%,100%{transform:rotate(6deg) translateY(0)} 50%{transform:rotate(9deg) translateY(-6px)} }
+@keyframes floatPaper3 { 0%,100%{transform:rotate(4deg) translateY(0)} 50%{transform:rotate(2deg) translateY(-8px)} }
+@keyframes floatPaper4 { 0%,100%{transform:rotate(-6deg) translateY(0)} 50%{transform:rotate(-9deg) translateY(-5px)} }
+/* Magnifying glass */
+.magnify-glass { position:relative; z-index:2; flex-shrink:0; }
+.magnify-lens {
+  width:68px; height:68px; border-radius:50%;
+  background:rgba(240,240,255,0.7);
+  border:7px solid #3a3d52;
+  box-shadow:inset 0 2px 8px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.18);
+  position:relative;
+}
+.magnify-lens::after {
+  content:''; position:absolute; top:8px; left:8px;
+  width:18px; height:18px; border-radius:50%;
+  background:rgba(255,255,255,0.5);
+}
+.magnify-handle {
+  width:10px; height:34px; background:#3a3d52;
+  border-radius:4px;
+  position:absolute; bottom:-30px; right:-6px;
+  transform:rotate(45deg);
+  box-shadow:0 2px 6px rgba(0,0,0,0.25);
+}
+/* Watch name/date/progressor */
+/* Watch card top header row */
+.watch-header {
+  display:flex; justify-content:space-between;
+  align-items:flex-start; gap:8px; margin-bottom:4px;
+}
+.watch-name {
+  font-family:'Orbitron',sans-serif; font-size:15px; font-weight:700;
+  color:rgba(0,0,0,0.78); letter-spacing:0.5px;
+  word-break:break-word; line-height:1.3; flex:1;
+}
+.watch-date-badge {
+  display:flex; align-items:center; gap:4px;
+  background:rgba(0,0,0,0.06); border-radius:20px;
+  padding:3px 9px; flex-shrink:0;
+}
+.watch-eye-icon { color:rgba(0,0,0,0.4); line-height:1; }
+.watch-date {
+  font-size:10px; color:rgba(0,0,0,0.45);
+  letter-spacing:1px; white-space:nowrap;
+}
+/* Price — hidden by default, shown on hover */
+.watch-hover-details {
+  max-height:0; opacity:0; overflow:hidden;
+  transition:max-height 0.28s ease, opacity 0.28s ease,
+             margin-top 0.28s ease, padding-top 0.28s ease;
+  border-top:1px solid rgba(0,0,0,0.08);
+  margin-top:0; padding-top:0;
+}
+.watch-card:hover .watch-hover-details {
+  max-height:80px; opacity:1; margin-top:8px; padding-top:8px;
+}
+.watch-detail {
+  display:flex; justify-content:space-between;
+  font-size:12px; color:rgba(0,0,0,0.5);
+  letter-spacing:1px; margin-bottom:4px;
+}
+.watch-detail strong { color:rgba(0,0,0,0.75); font-weight:700; }
+.watch-divider { display:none; }   /* replaced by hover-details border */
+/* Yellow progressor */
+.watch-progressor { margin-top:10px; }
+.watch-prog-label {
+  font-size:8px; letter-spacing:3px; color:rgba(0,0,0,0.35);
+  margin-bottom:5px;
+}
+.watch-prog-track {
+  height:4px; background:rgba(0,0,0,0.08);
+  border-radius:2px; overflow:hidden;
+}
+.watch-prog-fill {
+  height:100%; border-radius:2px; background:#FFD700;
+  box-shadow:0 0 8px rgba(255,215,0,0.5);
+  animation:progressor 2.8s ease-in-out infinite;
 }
 .watch-top { display:flex; align-items:center; gap:14px; }
 .watch-scan {
@@ -446,14 +555,14 @@ let firebaseReady = false;
 let db            = null;
 
 const CARD_COLORS = [
-  "#1a6b3c",  // deep green
-  "#0d4a6e",  // deep navy
-  "#5c2d91",  // deep purple
-  "#7a3a00",  // deep amber
-  "#8b0000",  // deep red
-  "#004d5a",  // teal
-  "#2d4a00",  // forest
-  "#4a1a5c",  // violet
+  "#b8dcf8",   // pastel blue
+  "#ffd6e8",   // pastel pink
+  "#c8f0d8",   // pastel green
+  "#fdefc0",   // pastel yellow
+  "#ddd4f8",   // pastel lavender
+  "#c8eef8",   // pastel sky
+  "#ffdcc8",   // pastel peach
+  "#d4f8e8",   // pastel mint
 ];
 
 // ── Maps portal tab name → Firestore State values (lowercase) ───
@@ -676,67 +785,99 @@ function buildWatchCard(card) {
   const targetHtml = card.target && card.target !== '—'
     ? `<div class="watch-detail"><span>Target</span><strong>${escHtml(card.target)}</strong></div>` : '';
 
-  // Build radar + card using DOM methods (avoids SVG innerHTML issues)
-  const top = document.createElement('div');
-  top.className = 'watch-top';
+  // ── Magnify scene (Image 2 style) ──────────────────
+  const scene = document.createElement('div');
+  scene.className = 'magnify-scene';
 
-  // Radar scan SVG
-  const scanWrap = document.createElement('div');
-  scanWrap.className = 'watch-scan';
-  const ns = 'http://www.w3.org/2000/svg';
-  const svg = document.createElementNS(ns, 'svg');
-  svg.setAttribute('viewBox', '0 0 52 52');
-  const rings = [[24,1],[16,.6],[8,.4]].map(([r,op]) => {
-    const c = document.createElementNS(ns, 'circle');
-    c.setAttribute('cx','26'); c.setAttribute('cy','26');
-    c.setAttribute('r', String(r)); c.setAttribute('class','scan-ring');
-    if (op < 1) c.setAttribute('opacity', String(op));
-    return c;
+  const glow = document.createElement('div');
+  glow.className = 'magnify-glow';
+  scene.appendChild(glow);
+
+  // Floating papers
+  [['p1',3],['p2',3],['p3',3],['p4',2],['p5',3]].forEach(([cls, lines]) => {
+    const p = document.createElement('div');
+    p.className = `mpaper ${cls}`;
+    for (let i=0;i<lines;i++) {
+      const l = document.createElement('div');
+      l.className = 'mpaper-line';
+      p.appendChild(l);
+    }
+    scene.appendChild(p);
   });
-  const cross1 = document.createElementNS(ns, 'line');
-  cross1.setAttribute('x1','2'); cross1.setAttribute('y1','26');
-  cross1.setAttribute('x2','50'); cross1.setAttribute('y2','26');
-  cross1.setAttribute('class','scan-ring'); cross1.setAttribute('stroke-dasharray','3 3');
-  const cross2 = document.createElementNS(ns, 'line');
-  cross2.setAttribute('x1','26'); cross2.setAttribute('y1','2');
-  cross2.setAttribute('x2','26'); cross2.setAttribute('y2','50');
-  cross2.setAttribute('class','scan-ring'); cross2.setAttribute('stroke-dasharray','3 3');
-  const sweepLine = document.createElementNS(ns, 'line');
-  sweepLine.setAttribute('x1','26'); sweepLine.setAttribute('y1','26');
-  sweepLine.setAttribute('x2','26'); sweepLine.setAttribute('y2','3');
-  sweepLine.setAttribute('class','scan-line');
-  const dot = document.createElementNS(ns, 'circle');
-  dot.setAttribute('cx','26'); dot.setAttribute('cy','3');
-  dot.setAttribute('r','2.5'); dot.setAttribute('class','scan-dot');
-  rings.forEach(r => svg.appendChild(r));
-  svg.appendChild(cross1); svg.appendChild(cross2);
-  svg.appendChild(sweepLine); svg.appendChild(dot);
-  scanWrap.appendChild(svg);
 
-  // Company + date info
-  const info = document.createElement('div');
-  info.className = 'watch-info';
+  // Magnifying glass (CSS only)
+  const glass = document.createElement('div');
+  glass.className = 'magnify-glass';
+  const lens = document.createElement('div');
+  lens.className = 'magnify-lens';
+  const handle = document.createElement('div');
+  handle.className = 'magnify-handle';
+  glass.appendChild(lens);
+  glass.appendChild(handle);
+  scene.appendChild(glass);
+  wrap.appendChild(scene);
+
+  // ── Top header: company name left, eye+date top-right ──────────
+  const header = document.createElement('div');
+  header.className = 'watch-header';
+
   const nm = document.createElement('div');
-  nm.className = 'watch-name'; nm.textContent = card.company;
-  const dt = document.createElement('div');
+  nm.className = 'watch-name';
+  nm.textContent = card.company;
+
+  const dateBadge = document.createElement('div');
+  dateBadge.className = 'watch-date-badge';
+
+  // Eye SVG icon
+  const eyeSpan = document.createElement('span');
+  eyeSpan.className = 'watch-eye-icon';
+  const ns = 'http://www.w3.org/2000/svg';
+  const eyeSvg = document.createElementNS(ns, 'svg');
+  eyeSvg.setAttribute('width','13'); eyeSvg.setAttribute('height','13');
+  eyeSvg.setAttribute('viewBox','0 0 24 24');
+  eyeSvg.setAttribute('fill','none');
+  eyeSvg.setAttribute('stroke','rgba(0,0,0,0.45)');
+  eyeSvg.setAttribute('stroke-width','2');
+  eyeSvg.setAttribute('stroke-linecap','round');
+  const eyePath = document.createElementNS(ns, 'path');
+  eyePath.setAttribute('d','M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z');
+  const eyeCircle = document.createElementNS(ns, 'circle');
+  eyeCircle.setAttribute('cx','12'); eyeCircle.setAttribute('cy','12');
+  eyeCircle.setAttribute('r','3');
+  eyeSvg.appendChild(eyePath); eyeSvg.appendChild(eyeCircle);
+  eyeSpan.appendChild(eyeSvg);
+
+  const dt = document.createElement('span');
   dt.className = 'watch-date'; dt.textContent = dateFmt;
-  info.appendChild(nm); info.appendChild(dt);
 
-  top.appendChild(scanWrap); top.appendChild(info);
-  wrap.appendChild(top);
+  dateBadge.appendChild(eyeSpan);
+  dateBadge.appendChild(dt);
+  header.appendChild(nm);
+  header.appendChild(dateBadge);
+  wrap.appendChild(header);
 
-  // Price / target rows
+  // ── Magnify scene ─────────────────────────────────────────────
+  wrap.appendChild(scene);
+
+  // ── Price / target — hidden, revealed on hover ────────────────
   if (priceHtml || targetHtml) {
-    const div = document.createElement('div');
-    div.className = 'watch-divider';
-    wrap.appendChild(div);
-    _html(wrap, (priceHtml || '') + (targetHtml || ''));
+    const hoverDiv = document.createElement('div');
+    hoverDiv.className = 'watch-hover-details';
+    _html(hoverDiv, (priceHtml || '') + (targetHtml || ''));
+    wrap.appendChild(hoverDiv);
   }
 
-  // Yellow progressor bar
+  // ── Yellow progressor bar ─────────────────────────────────────
   const prog = document.createElement('div');
   prog.className = 'watch-progressor';
-  prog.innerHTML = '<div class="watch-prog-label">PROGRESSOR</div><div class="watch-prog-track"><div class="watch-prog-fill"></div></div>';
+  const pLabel = document.createElement('div');
+  pLabel.className = 'watch-prog-label'; pLabel.textContent = 'PROGRESSOR';
+  const pTrack = document.createElement('div');
+  pTrack.className = 'watch-prog-track';
+  const pFill = document.createElement('div');
+  pFill.className = 'watch-prog-fill';
+  pTrack.appendChild(pFill);
+  prog.appendChild(pLabel); prog.appendChild(pTrack);
   wrap.appendChild(prog);
   return wrap;
 }
