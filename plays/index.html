@@ -6,6 +6,7 @@
 <meta name="description" content="OakOn Labs — Mission Control. We build and deliver impactful work.">
 <title>OAKON LABS · MISSION CONTROL</title>
 
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;900&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -329,6 +330,62 @@ section.blk {
 .log-msg { font-weight: 300; line-height: 1.6; }
 
 
+/* ── SSO MODAL ───────────────────────────── */
+#sso-modal {
+  display: none;
+  position: fixed; inset: 0; z-index: 9000;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(6px);
+  align-items: center; justify-content: center;
+}
+#sso-modal.open { display: flex; }
+.sso-box {
+  background: #040F09;
+  border: 1px solid rgba(0,229,255,0.3);
+  border-radius: 4px;
+  padding: 40px 48px;
+  text-align: center;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 18px;
+  box-shadow: 0 0 60px rgba(0,229,255,0.1);
+  max-width: 360px; width: 90%;
+}
+.sso-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px; letter-spacing: 4px; color: var(--cy);
+}
+.sso-sub {
+  font-size: 10px; letter-spacing: 2px;
+  color: var(--g-dim); line-height: 1.8;
+}
+.members-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 12px 32px;
+  background: transparent;
+  border: 1.5px solid var(--cy);
+  border-radius: 30px;
+  color: var(--cy);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px; font-weight: 700; letter-spacing: 4px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 0 14px rgba(0,229,255,0.1);
+}
+.members-btn:hover {
+  background: rgba(0,229,255,0.08);
+  box-shadow: 0 0 28px rgba(0,229,255,0.25);
+  transform: scale(1.03);
+}
+.members-lock  { font-size: 14px; }
+.members-label { font-size: 11px; letter-spacing: 4px; }
+.sso-close {
+  position: absolute; top: 20px; right: 24px;
+  font-size: 20px; color: var(--g-dim);
+  cursor: pointer; background: none; border: none;
+  transition: color 0.2s;
+}
+.sso-close:hover { color: var(--g); }
+
 /* ── PLAYS CTA — title only ─────────────── */
 .plays-cta {
   position: relative; z-index: 1;
@@ -609,7 +666,7 @@ footer {
 ════════════════════════════════════════ -->
 <section class="plays-cta">
   <h2 class="plays-title">
-    ENTER THE<br><a href="/plays" class="plays-word">PLAYS</a>&nbsp;CONSOLE
+    ENTER THE<br><a href="/plays" class="plays-word" onclick="openSSOModal(event)">PLAYS</a>&nbsp;CONSOLE
   </h2>
 </section>
 
@@ -691,6 +748,39 @@ if ('IntersectionObserver' in window) {
   });
 })();
 
+/* ── PLAYS SSO MODAL ── */
+function openSSOModal(e) {
+  e.preventDefault();
+  document.getElementById('sso-modal').classList.add('open');
+  // Re-render the Google button each time modal opens
+  if (window.google && google.accounts) {
+    google.accounts.id.renderButton(
+      document.querySelector('.g_id_signin'),
+      { theme: 'outline', size: 'large', width: 240 }
+    );
+  }
+}
+function closeSSOModal() {
+  document.getElementById('sso-modal').classList.remove('open');
+}
+// Close modal on backdrop click — wait for DOM to be ready
+document.addEventListener('DOMContentLoaded', function() {
+  const modal = document.getElementById('sso-modal');
+  if (modal) modal.addEventListener('click', function(e) {
+    if (e.target === this) closeSSOModal();
+  });
+});
+// After successful sign-in, redirect to /plays
+function triggerGoogleSignIn() {
+  if (window.google && google.accounts && google.accounts.id) {
+    google.accounts.id.prompt();
+  }
+}
+function onHomepageSignIn(response) {
+  closeSSOModal();
+  window.location.href = '/plays';
+}
+
 /* ── SMOOTH ANCHOR SCROLL (fallback for older browsers) ── */
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', function(e) {
@@ -703,5 +793,27 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 });
 </script>
 
+<!-- SSO Modal -->
+<div id="sso-modal">
+  <div class="sso-box">
+    <button class="sso-close" onclick="closeSSOModal()">✕</button>
+    <div class="sso-title">PLAYS // CONSOLE</div>
+    <div class="sso-sub">
+      Sign in with your authorised<br>Google account to enter.
+    </div>
+    <div id="g_id_onload"
+         data-client_id="455995363048-7keld999n5fjgmlelh6kmjqdom3e1hu4.apps.googleusercontent.com"
+         data-callback="onHomepageSignIn"
+         data-auto_prompt="false">
+    </div>
+    <button class="members-btn" onclick="triggerGoogleSignIn()">
+      <span class="members-lock">🔒</span>
+      <span class="members-label">MEMBERS</span>
+    </button>
+    <div style="font-size:9px;letter-spacing:2px;color:var(--g-dim)">
+      GOOGLE AUTH · FEDERATED SSO
+    </div>
+  </div>
+</div>
 </body>
 </html>
