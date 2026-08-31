@@ -198,14 +198,27 @@ body::after {
   letter-spacing:1px; margin-top:4px;
 }
 .card-illustration {
-  flex:1; display:flex; align-items:flex-end; justify-content:flex-end;
-  padding-bottom:4px; padding-right:4px; overflow:hidden; margin-top:12px;
+  flex:1; position:relative; display:flex;
+  align-items:center; justify-content:center;
+  overflow:hidden; margin-top:10px; min-height:72px;
 }
+/* Shadow ticker — always shown, 80% of original 72px */
 .card-ticker-big {
-  font-family:'Orbitron',sans-serif; font-size:72px; font-weight:900;
+  font-family:'Orbitron',sans-serif; font-size:58px; font-weight:900;
   color:rgba(0,0,0,0.09); line-height:1; letter-spacing:-2px;
-  user-select:none; white-space:nowrap;
+  user-select:none; white-space:nowrap; text-align:center;
+  position:absolute; inset:0; display:flex;
+  align-items:center; justify-content:center;
 }
+/* Logo centered on top of shadow ticker */
+.card-logo {
+  position:relative; z-index:2;
+  width:58px; height:58px; object-fit:contain; border-radius:12px;
+  background:rgba(255,255,255,0.65); padding:6px;
+  box-shadow:0 3px 14px rgba(0,0,0,0.13);
+  transition:transform 0.2s;
+}
+.card-logo:hover { transform:scale(1.1); }
 /* Details — revealed on hover */
 .card-details {
   max-height:0; opacity:0; overflow:hidden;
@@ -575,9 +588,9 @@ const CARD_COLORS = [
 // ── Maps portal tab name → Firestore State values (lowercase) ───
 // Edit here if your State column values change.
 const TAB_CATEGORIES = {
-  'holdings': ['longterm', 'shortterm'],
+  'launches': ['longterm', 'shortterm'],
   'review':   ['watch'],
-  // 'exits': ['exited', 'sold'],   ← add more tabs/mappings here
+  // 'exits':  ['exited', 'sold'],  ← add more tabs/mappings here
 };
 // State values to ignore completely
 const IGNORED_STATES = ['rejected'];
@@ -787,10 +800,32 @@ function buildHoldingsCard(card, idx) {
 
   const illus = document.createElement('div');
   illus.className = 'card-illustration';
-  const ticker = document.createElement('div');
-  ticker.className = 'card-ticker-big';
-  ticker.textContent = card.company.slice(0, 4);
-  illus.appendChild(ticker);
+
+  // Try logo first — cascade: Parqet → Clearbit
+  // Only if all fail: show shadow ticker at 80% size, centred
+  const img = document.createElement('img');
+  img.className = 'card-logo';
+  img.alt = card.company;
+  const sources = [
+    `https://assets.parqet.com/logos/symbol/${encodeURIComponent(card.company)}?format=jpg`,
+    `https://logo.clearbit.com/${encodeURIComponent(card.company.toLowerCase())}.com`,
+  ];
+  let srcIdx = 0;
+  img.src = sources[srcIdx];
+  img.onerror = () => {
+    srcIdx++;
+    if (srcIdx < sources.length) {
+      img.src = sources[srcIdx];
+    } else {
+      // All logo sources exhausted — show shadow ticker instead
+      img.remove();
+      const tickerShadow = document.createElement('div');
+      tickerShadow.className = 'card-ticker-big';
+      tickerShadow.textContent = card.company.toUpperCase();
+      illus.appendChild(tickerShadow);
+    }
+  };
+  illus.appendChild(img);
   wrap.appendChild(illus);
 
   // ── Hex overlay — appears on card hover ──────────────────────
