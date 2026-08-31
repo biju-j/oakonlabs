@@ -598,6 +598,16 @@ const IGNORED_STATES = ['rejected'];
 /* ═══════════════════════════════════════════════════════════════
    GOOGLE AUTH CALLBACK (global — called by GSI library)
 ═══════════════════════════════════════════════════════════════ */
+// ── Auto-authenticate if arriving from homepage sign-in ──────────
+document.addEventListener('DOMContentLoaded', function() {
+  const stored = sessionStorage.getItem('gsi_credential');
+  if (stored) {
+    sessionStorage.removeItem('gsi_credential');
+    // Slight delay so WHITELIST placeholder is injected first
+    setTimeout(() => window.onGoogleSignIn({ credential: stored }), 50);
+  }
+});
+
 window.onGoogleSignIn = function(response) {
   try {
     const [, b64] = response.credential.split('.');
