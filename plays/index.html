@@ -344,13 +344,18 @@ section.blk {
   letter-spacing: 5px; color: #fff; line-height: 1.2;
   text-shadow: 0 0 40px rgba(255,255,255,0.06);
 }
-.plays-title .cy {
-  color: var(--cy); text-shadow: 0 0 28px var(--cy);
-  cursor: pointer; text-decoration: none;
-  transition: text-shadow 0.2s;
+.plays-title a.plays-word {
+  color: var(--cy);
+  text-shadow: 0 0 28px var(--cy);
+  text-decoration: none;
+  display: inline-block;
+  transition: text-shadow 0.3s ease, letter-spacing 0.3s ease;
+  cursor: pointer;
 }
-.plays-title .cy:hover {
-  text-shadow: 0 0 44px var(--cy), 0 0 80px rgba(0,229,255,0.3);
+.plays-title a.plays-word:hover {
+  text-shadow: 0 0 48px var(--cy), 0 0 100px rgba(0,229,255,0.35);
+  letter-spacing: 7px;
+  text-decoration: none;
 }
 
 /* ── FOOTER ──────────────────────────────── */
@@ -604,7 +609,7 @@ footer {
 ════════════════════════════════════════ -->
 <section class="plays-cta">
   <h2 class="plays-title">
-    ENTER THE<br><a href="/plays" class="cy">PLAYS</a> CONSOLE
+    ENTER THE<br><a href="/plays" class="plays-word">PLAYS</a>&nbsp;CONSOLE
   </h2>
 </section>
 
@@ -615,7 +620,7 @@ footer {
   <div class="f-logo">OAKON//LABS</div>
   <div id="footer-ts" style="font-variant-numeric:tabular-nums">UTC 2026.05.12 · 00:00:00Z</div>
   <div class="f-links">
-    <a href="mailto:your_email@example.com">CONTACT</a>
+    <a href="mailto:partner@oakonlabs.com">CONTACT</a>
     <a href="/plays">PLAYS</a>
   </div>
   <div>© 2026 OAKON LABS</div>
