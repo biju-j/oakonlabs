@@ -118,17 +118,18 @@ body::after {
   font-family:'Orbitron',sans-serif; font-size:9px; letter-spacing:3px;
   transition:all 0.2s;
 }
-.tab-btn:hover { background:rgba(0,255,65,0.07); color:var(--g); }
+.tab-btn:hover { background:rgba(0,229,255,0.07); color:var(--cy); }
 .tab-btn.active {
-  background:rgba(0,255,65,0.08); color:var(--g);
-  border-color:rgba(0,255,65,0.45);
-  box-shadow:0 0 14px rgba(0,255,65,0.1);
+  background:rgba(0,229,255,0.10); color:var(--cy);
+  border-color:rgba(0,229,255,0.55);
+  box-shadow:0 0 16px rgba(0,229,255,0.18);
+  text-shadow:0 0 10px rgba(0,229,255,0.5);
 }
 
 /* ── TAB LABEL ───────────────────────────────────────────────── */
 .tab-label {
   font-family:'Orbitron',sans-serif; font-size:8px; letter-spacing:4px;
-  color:var(--gd); margin-bottom:18px;
+  color:var(--cy); margin-bottom:18px; opacity:0.7;
 }
 .tab-label::before { content:'// '; opacity:0.4; }
 
@@ -456,6 +457,14 @@ async function loadCards(getDocs, collection) {
         note:     v('Note',''),
       });
     });
+
+    // Debug — check categories fetched vs current tab
+    const cats = [...new Set(allCards.map(c => c.category))];
+    console.log(`[OakOn] Firestore: ${allCards.length} cards loaded`);
+    console.log(`[OakOn] Categories in Firestore: ${cats.join(', ')}`);
+    console.log(`[OakOn] Current tab (MAIN_TABS): ${currentTab}`);
+    console.log(`[OakOn] Match check: "${cats[0]}" === "${currentTab}" → ${cats[0]?.toLowerCase() === currentTab?.toLowerCase()}`);
+
     renderCards();
   } catch(err) {
     console.error('Firestore read error:', err);
@@ -483,8 +492,14 @@ function renderCards() {
     c => c.category.trim().toLowerCase() === currentTab.trim().toLowerCase()
   );
 
+  console.log(`[OakOn] Tab "${currentTab}" → ${filtered.length} matching cards`);
+
   if (!filtered.length) {
-    grid.innerHTML = `<div class="empty-msg">[ NO RECORDS FOR ${currentTab.toUpperCase()} ]</div>`;
+    const cats = [...new Set(allCards.map(c => c.category))];
+    const hint = cats.length
+      ? `<div style="font-size:10px;margin-top:8px;color:rgba(0,229,255,0.5)">Firestore has: ${cats.join(', ')}<br>Tab looking for: ${currentTab}</div>`
+      : '';
+    grid.innerHTML = `<div class="empty-msg">[ NO RECORDS FOR ${currentTab.toUpperCase()} ]${hint}</div>`;
     return;
   }
 
