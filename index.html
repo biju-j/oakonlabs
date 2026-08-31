@@ -6,6 +6,7 @@
 <meta name="description" content="OakOn Labs — Mission Control. We build and deliver impactful work.">
 <title>OAKON LABS · MISSION CONTROL</title>
 
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;900&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -328,61 +329,72 @@ section.blk {
 }
 .log-msg { font-weight: 300; line-height: 1.6; }
 
+
 /* ── PLAYS CTA ───────────────────────────── */
 .plays-cta {
   position: relative; z-index: 1;
-  padding: 96px 36px;
-  background: rgba(0,229,255,0.015);
-  border-top: 1px solid rgba(0,229,255,0.1);
-  border-bottom: 1px solid rgba(0,229,255,0.1);
+  padding: 80px 36px;
   text-align: center;
-  overflow: hidden;
-}
-.plays-cta::before {
-  content: '';
-  position: absolute; left: 50%; top: 50%;
-  width: 600px; height: 600px;
-  transform: translate(-50%,-50%);
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(0,229,255,0.04) 0%, transparent 70%);
-  pointer-events: none;
-}
-.auth-badge {
-  display: inline-block;
-  font-size: 8px; letter-spacing: 4px;
-  color: var(--am); border: 1px solid rgba(255,180,0,0.3);
-  padding: 6px 16px; margin-bottom: 28px;
-  background: rgba(255,180,0,0.04);
+  background: rgba(0,229,255,0.012);
+  border-top: 1px solid rgba(0,229,255,0.08);
+  border-bottom: 1px solid rgba(0,229,255,0.08);
+  overflow: visible;
 }
 .plays-title {
   font-family: 'Orbitron', sans-serif;
-  font-weight: 900; font-size: clamp(24px, 4vw, 44px);
-  letter-spacing: 4px; color: #fff; margin-bottom: 20px;
-  line-height: 1.2;
+  font-weight: 900; font-size: clamp(28px, 5vw, 52px);
+  letter-spacing: 5px; color: #fff; line-height: 1.2;
+  text-shadow: 0 0 40px rgba(255,255,255,0.06);
+  margin-bottom: 32px;
 }
-.plays-title .cy { color: var(--cy); text-shadow: 0 0 22px var(--cy); }
-.plays-desc {
-  font-size: 12px; line-height: 2; color: var(--txt);
-  max-width: 420px; margin: 0 auto 40px; font-weight: 300;
+.plays-title a.plays-word {
+  color: var(--cy); text-shadow: 0 0 28px var(--cy);
+  text-decoration: none; display: inline-block;
+  transition: text-shadow 0.3s ease, letter-spacing 0.3s ease;
+  cursor: pointer;
 }
-.plays-btn {
-  display: inline-flex; align-items: center; gap: 12px;
-  padding: 16px 44px;
-  border: 1px solid var(--cy);
-  color: var(--cy); background: rgba(0,229,255,0.06);
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 10px; letter-spacing: 4px; border-radius: 2px;
-  transition: all 0.25s; cursor: pointer;
+.plays-title a.plays-word:hover {
+  text-shadow: 0 0 48px var(--cy), 0 0 100px rgba(0,229,255,0.35);
+  letter-spacing: 7px; text-decoration: none;
 }
-.plays-btn:hover {
-  background: rgba(0,229,255,0.12);
-  box-shadow: 0 0 36px rgba(0,229,255,0.18);
-  text-decoration: none;
+/* Members button */
+.members-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 13px 36px; border-radius: 40px;
+  background: transparent; border: 2px solid var(--cy);
+  color: var(--cy); font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px; font-weight: 700; letter-spacing: 4px;
+  cursor: pointer; transition: all 0.25s;
+  box-shadow: 0 0 18px rgba(0,229,255,0.12);
 }
-.auth-note {
-  margin-top: 18px; font-size: 9px; letter-spacing: 3px;
-  color: var(--g-dim);
+.members-btn:hover {
+  background: rgba(0,229,255,0.08);
+  box-shadow: 0 0 36px rgba(0,229,255,0.28);
+  transform: scale(1.03);
 }
+/* Sign-in overlay */
+#signin-overlay {
+  display: none; position: fixed; inset: 0; z-index: 9999;
+  background: rgba(0,0,0,0.72); backdrop-filter: blur(6px);
+  align-items: center; justify-content: center;
+}
+#signin-overlay.open { display: flex; }
+#signin-card {
+  background: #040F09; border: 1px solid rgba(0,229,255,0.3);
+  border-radius: 6px; padding: 36px 44px;
+  display: flex; flex-direction: column; align-items: center; gap: 20px;
+  box-shadow: 0 0 60px rgba(0,229,255,0.1); min-width: 300px;
+}
+.signin-label {
+  font-family: 'Orbitron', sans-serif; font-size: 10px;
+  letter-spacing: 4px; color: var(--cy);
+}
+.signin-close {
+  background: none; border: none; color: var(--g-dim);
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+  letter-spacing: 2px; cursor: pointer; transition: color 0.2s;
+}
+.signin-close:hover { color: var(--rd); }
 
 /* ── FOOTER ──────────────────────────────── */
 footer {
@@ -420,7 +432,7 @@ footer {
   nav { padding: 0 18px; }
   .nav-clock, .status-pill { display: none; }
   section.blk { padding: 60px 18px; }
-  .plays-cta { padding: 60px 18px; }
+
   footer { padding: 24px 18px; flex-direction: column; text-align: center; }
   .f-links { justify-content: center; }
   .hero-sub { font-size: 12px; }
@@ -628,28 +640,28 @@ footer {
 <!-- ════════════════════════════════════════
      PLAYS CTA
 ════════════════════════════════════════ -->
+
+
+<!-- ════════════════════════════════════════
+     PLAYS CTA — title only, PLAYS links to /plays SSO
+════════════════════════════════════════ -->
 <section class="plays-cta">
-
-  <div class="auth-badge">⚿ &nbsp;AUTHENTICATION REQUIRED</div>
-
   <h2 class="plays-title">
-    ENTER THE<br><span class="cy">PLAYS</span> CONSOLE
+    ENTER THE<br>
+    <a class="plays-word" href="#" onclick="openSignIn(event)">PLAYS</a>&nbsp;CONSOLE
   </h2>
+  <button class="members-btn" onclick="openSignIn(event)">
+    <span>🔒</span>&nbsp;MEMBERS
+  </button>
 
-  <p class="plays-desc">
-    Access restricted to authorized personnel.<br>
-    Google SSO authentication required.<br>
-    Secure channel · Federated identity.
-  </p>
-
-  <a href="/plays" class="plays-btn">
-    ⟶ &nbsp;AUTHENTICATE &amp; ENTER
-  </a>
-
-  <div class="auth-note">
-    GOOGLE AUTH · FEDERATED SSO · END-TO-END ENCRYPTED
+  <!-- Google sign-in overlay — shown on PLAYS or Members click -->
+  <div id="signin-overlay">
+    <div id="signin-card">
+      <div class="signin-label">SIGN IN TO CONTINUE</div>
+      <div id="g-signin-btn"></div>
+      <button class="signin-close" onclick="closeSignIn()">✕ CANCEL</button>
+    </div>
   </div>
-
 </section>
 
 <!-- ════════════════════════════════════════
@@ -659,7 +671,7 @@ footer {
   <div class="f-logo">OAKON//LABS</div>
   <div id="footer-ts" style="font-variant-numeric:tabular-nums">UTC 2026.05.12 · 00:00:00Z</div>
   <div class="f-links">
-    <a href="mailto:sijupjana@gmail.com">CONTACT</a>
+    <a href="mailto:partner@oakonlabs.com">CONTACT</a>
     <a href="/plays">PLAYS</a>
   </div>
   <div>© 2026 OAKON LABS</div>
@@ -729,6 +741,56 @@ if ('IntersectionObserver' in window) {
     b.style.animationDelay = `${offsets[i]}ms`;
   });
 })();
+
+/* ── GOOGLE SIGN-IN ── */
+let gsiReady = false;
+
+window.addEventListener('load', function () {
+  const waitGSI = setInterval(function () {
+    if (window.google && google.accounts && google.accounts.id) {
+      clearInterval(waitGSI);
+      google.accounts.id.initialize({
+        client_id: '455995363048-7keld999n5fjgmlelh6kmjqdom3e1hu4.apps.googleusercontent.com',
+        callback: onGoogleSignIn,
+        ux_mode: 'popup',
+      });
+      gsiReady = true;
+    }
+  }, 200);
+});
+
+function openSignIn(e) {
+  if (e) e.preventDefault();
+  const overlay = document.getElementById('signin-overlay');
+  overlay.classList.add('open');
+
+  // Render button after overlay is visible (needs non-zero dimensions)
+  setTimeout(function () {
+    if (!gsiReady) return;
+    const container = document.getElementById('g-signin-btn');
+    container.innerHTML = '';
+    google.accounts.id.renderButton(container, {
+      theme: 'outline', size: 'large', width: 260, text: 'sign_in_with',
+    });
+  }, 60);
+}
+
+function closeSignIn() {
+  document.getElementById('signin-overlay').classList.remove('open');
+}
+
+function onGoogleSignIn(response) {
+  closeSignIn();
+  window.location.href = '/plays';
+}
+
+// Close on backdrop click
+document.addEventListener('DOMContentLoaded', function () {
+  const ov = document.getElementById('signin-overlay');
+  if (ov) ov.addEventListener('click', function (e) {
+    if (e.target === this) closeSignIn();
+  });
+});
 
 /* ── SMOOTH ANCHOR SCROLL (fallback for older browsers) ── */
 document.querySelectorAll('a[href^="#"]').forEach(a => {
