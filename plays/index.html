@@ -217,6 +217,70 @@ body::after {
 }
 @keyframes skelpulse { 0%,100%{opacity:0.4} 50%{opacity:0.9} }
 
+/* ── WATCH CARD (Review tab) ─────────────────────────────────── */
+.watch-card {
+  border-radius:12px; padding:20px 20px 16px;
+  background:#111418; border:1px solid rgba(255,255,255,0.08);
+  display:flex; flex-direction:column; gap:12px;
+  transition:transform 0.22s ease, box-shadow 0.22s ease;
+}
+.watch-card:hover {
+  transform:translateY(-4px);
+  box-shadow:0 10px 24px rgba(0,0,0,0.5);
+  border-color:rgba(255,255,255,0.14);
+}
+.watch-top { display:flex; align-items:center; gap:14px; }
+.watch-scan {
+  position:relative; width:52px; height:52px;
+  flex-shrink:0;
+}
+.watch-scan svg { width:100%; height:100%; }
+.scan-ring {
+  stroke:rgba(255,255,255,0.15); fill:none;
+  stroke-width:1;
+}
+.scan-line {
+  stroke:rgba(255,255,255,0.55); fill:none;
+  stroke-width:1.5; stroke-linecap:round;
+  animation:scanRotate 3s linear infinite;
+  transform-origin:26px 26px;
+}
+.scan-dot {
+  fill:rgba(255,255,255,0.7);
+  animation:scanPulse 3s ease-in-out infinite;
+}
+@keyframes scanRotate { to { transform:rotate(360deg); } }
+@keyframes scanPulse  { 0%,100%{opacity:.3} 50%{opacity:1} }
+.watch-info { flex:1; min-width:0; }
+.watch-name {
+  font-family:'Orbitron',sans-serif; font-size:14px; font-weight:700;
+  color:rgba(255,255,255,0.75); letter-spacing:1px;
+  word-break:break-word; line-height:1.3;
+}
+.watch-date { font-size:10px; color:rgba(255,255,255,0.35); margin-top:4px; letter-spacing:1px; }
+.watch-badge {
+  display:inline-flex; align-items:center; gap:5px;
+  padding:4px 10px; border-radius:20px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.1);
+  font-size:9px; letter-spacing:2px; color:rgba(255,255,255,0.45);
+  align-self:flex-start;
+}
+.watch-badge-dot {
+  width:4px; height:4px; border-radius:50%;
+  background:rgba(255,255,255,0.4);
+  animation:blink 2s step-end infinite;
+}
+.watch-divider {
+  height:1px; background:rgba(255,255,255,0.06);
+}
+.watch-detail {
+  display:flex; justify-content:space-between;
+  font-size:11px; color:rgba(255,255,255,0.3);
+  letter-spacing:1px;
+}
+.watch-detail strong { color:rgba(255,255,255,0.55); }
+
 /* ── ANIMATIONS ──────────────────────────────────────────────── */
 @keyframes sweep { to { transform:rotate(360deg); } }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
@@ -342,6 +406,16 @@ const CARD_COLORS = [
   "#2d4a00",  // forest
   "#4a1a5c",  // violet
 ];
+
+// ── Maps portal tab name → Firestore State values (lowercase) ───
+// Edit here if your State column values change.
+const TAB_CATEGORIES = {
+  'holdings': ['longterm', 'shortterm'],
+  'review':   ['watch'],
+  // 'exits': ['exited', 'sold'],   ← add more tabs/mappings here
+};
+// State values to ignore completely
+const IGNORED_STATES = ['rejected'];
 
 /* ═══════════════════════════════════════════════════════════════
    GOOGLE AUTH CALLBACK (global — called by GSI library)
@@ -488,47 +562,82 @@ function renderCards() {
   const grid = document.getElementById('card-grid');
   grid.innerHTML = '';
 
-  const filtered = allCards.filter(
-    c => c.category.trim().toLowerCase() === currentTab.trim().toLowerCase()
-  );
+  const tabKey    = currentTab.trim().toLowerCase();
+  const accepted  = TAB_CATEGORIES[tabKey] || [tabKey];
+  const isReview  = tabKey === 'review';
 
-  console.log(`[OakOn] Tab "${currentTab}" → ${filtered.length} matching cards`);
+  const filtered = allCards.filter(c => {
+    const state = c.category.trim().toLowerCase();
+    if (IGNORED_STATES.includes(state)) return false;
+    return accepted.includes(state);
+  });
 
   if (!filtered.length) {
-    const cats = [...new Set(allCards.map(c => c.category))];
-    const hint = cats.length
-      ? `<div style="font-size:10px;margin-top:8px;color:rgba(0,229,255,0.5)">Firestore has: ${cats.join(', ')}<br>Tab looking for: ${currentTab}</div>`
-      : '';
-    grid.innerHTML = `<div class="empty-msg">[ NO RECORDS FOR ${currentTab.toUpperCase()} ]${hint}</div>`;
+    grid.innerHTML = `<div class="empty-msg">[ NO RECORDS FOR ${currentTab.toUpperCase()} ]</div>`;
     return;
   }
 
   filtered.forEach((card, idx) => {
     const el = document.createElement('div');
-    el.className = 'keep-card';
-    el.style.background = CARD_COLORS[idx % CARD_COLORS.length];
-
-    const dateFmt = fmtDate(card.dateStr);
-    const statusHtml = card.status
-      ? `<div class="card-status"><span class="sdot"></span>${card.status.toUpperCase()}</div>`
-      : '';
-    const noteHtml = card.note
-      ? `<div class="detail-row"><span>Note:</span> <strong>${card.note}</strong></div>`
-      : '';
-
-    el.innerHTML = `
-      <div>
-        ${statusHtml}
-        <div class="card-title">${escHtml(card.company)}</div>
-        <div class="card-date">${dateFmt}</div>
-      </div>
-      <div class="card-details">
-        <div class="detail-row"><span>Price</span><strong>${escHtml(card.price)}</strong></div>
-        <div class="detail-row"><span>Target</span><strong>${escHtml(card.target)}</strong></div>
-        ${noteHtml}
-      </div>`;
+    if (isReview) {
+      el.appendChild(buildWatchCard(card));
+    } else {
+      el.className = 'keep-card';
+      el.style.background = CARD_COLORS[idx % CARD_COLORS.length];
+      const dateFmt   = fmtDate(card.dateStr);
+      const statusHtml = card.status
+        ? `<div class="card-status"><span class="sdot"></span>${card.status.toUpperCase()}</div>` : '';
+      const noteHtml = card.note
+        ? `<div class="detail-row"><span>Note:</span><strong>${card.note}</strong></div>` : '';
+      el.innerHTML = `
+        <div>
+          ${statusHtml}
+          <div class="card-title">${escHtml(card.company)}</div>
+          <div class="card-date">${dateFmt}</div>
+        </div>
+        <div class="card-details">
+          <div class="detail-row"><span>Price</span><strong>${escHtml(card.price)}</strong></div>
+          <div class="detail-row"><span>Target</span><strong>${escHtml(card.target)}</strong></div>
+          ${noteHtml}
+        </div>`;
+    }
     grid.appendChild(el);
   });
+}
+
+function buildWatchCard(card) {
+  const wrap = document.createElement('div');
+  wrap.className = 'watch-card';
+  const dateFmt = fmtDate(card.dateStr);
+  const priceHtml = card.price && card.price !== '—'
+    ? `<div class="watch-detail"><span>Price</span><strong>${escHtml(card.price)}</strong></div>` : '';
+  const targetHtml = card.target && card.target !== '—'
+    ? `<div class="watch-detail"><span>Target</span><strong>${escHtml(card.target)}</strong></div>` : '';
+
+  wrap.innerHTML = `
+    <div class="watch-top">
+      <div class="watch-scan">
+        <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="26" cy="26" r="24" class="scan-ring"/>
+          <circle cx="26" cy="26" r="16" class="scan-ring" opacity=".6"/>
+          <circle cx="26" cy="26" r="8"  class="scan-ring" opacity=".4"/>
+          <line x1="26" y1="26" x2="26" y2="4" class="scan-line"/>
+          <circle cx="26" cy="4" r="2" class="scan-dot"/>
+          <line x1="2"  y1="26" x2="50" y2="26" class="scan-ring" stroke-dasharray="3 3"/>
+          <line x1="26" y1="2"  x2="26" y2="50" class="scan-ring" stroke-dasharray="3 3"/>
+        </svg>
+      </div>
+      <div class="watch-info">
+        <div class="watch-name">${escHtml(card.company)}</div>
+        <div class="watch-date">${dateFmt}</div>
+      </div>
+    </div>
+    <div class="watch-badge">
+      <span class="watch-badge-dot"></span>
+      UNDER ASSESSMENT
+    </div>
+    ${priceHtml || targetHtml ? `<div class="watch-divider"></div>${priceHtml}${targetHtml}` : ''}`;
+  return wrap;
 }
 
 function renderDemoCards() {
