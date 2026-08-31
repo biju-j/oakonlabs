@@ -749,17 +749,7 @@ if ('IntersectionObserver' in window) {
 })();
 
 /* ── PLAYS SSO MODAL ── */
-function openSSOModal(e) {
-  e.preventDefault();
-  document.getElementById('sso-modal').classList.add('open');
-  // Re-render the Google button each time modal opens
-  if (window.google && google.accounts) {
-    google.accounts.id.renderButton(
-      document.querySelector('.g_id_signin'),
-      { theme: 'outline', size: 'large', width: 240 }
-    );
-  }
-}
+
 function closeSSOModal() {
   document.getElementById('sso-modal').classList.remove('open');
 }
@@ -771,11 +761,31 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 // After successful sign-in, redirect to /plays
-function triggerGoogleSignIn() {
-  if (window.google && google.accounts && google.accounts.id) {
-    google.accounts.id.prompt();
-  }
+function openSSOModal(e) {
+  e.preventDefault();
+  document.getElementById('sso-modal').classList.add('open');
 }
+
+function showGoogleBtn() {
+  // Hide Members button, show Google Sign-In button
+  document.getElementById('members-btn').style.display = 'none';
+  const container = document.getElementById('g-btn-container');
+  container.style.display = 'block';
+  container.innerHTML = '';   // clear any previous render
+
+  google.accounts.id.initialize({
+    client_id: '455995363048-7keld999n5fjgmlelh6kmjqdom3e1hu4.apps.googleusercontent.com',
+    callback: onHomepageSignIn,
+    ux_mode: 'popup',
+  });
+  google.accounts.id.renderButton(container, {
+    theme: 'outline',
+    size:  'large',
+    width: 240,
+    text:  'sign_in_with',
+  });
+}
+
 function onHomepageSignIn(response) {
   closeSSOModal();
   window.location.href = '/plays';
@@ -801,15 +811,11 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     <div class="sso-sub">
       Sign in with your authorised<br>Google account to enter.
     </div>
-    <div id="g_id_onload"
-         data-client_id="455995363048-7keld999n5fjgmlelh6kmjqdom3e1hu4.apps.googleusercontent.com"
-         data-callback="onHomepageSignIn"
-         data-auto_prompt="false">
-    </div>
-    <button class="members-btn" onclick="triggerGoogleSignIn()">
+    <button class="members-btn" id="members-btn" onclick="showGoogleBtn()">
       <span class="members-lock">🔒</span>
       <span class="members-label">MEMBERS</span>
     </button>
+    <div id="g-btn-container" style="display:none;margin-top:4px"></div>
     <div style="font-size:9px;letter-spacing:2px;color:var(--g-dim)">
       GOOGLE AUTH · FEDERATED SSO
     </div>
