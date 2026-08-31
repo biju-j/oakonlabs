@@ -780,6 +780,8 @@ function closeSignIn() {
 }
 
 function onGoogleSignIn(response) {
+  // Store credential so plays page can auto-authenticate without re-prompting
+  sessionStorage.setItem('gsi_credential', response.credential);
   closeSignIn();
   window.location.href = '/plays';
 }
