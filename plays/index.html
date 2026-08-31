@@ -232,6 +232,64 @@ body::after {
 }
 .card-status .sdot { width:5px; height:5px; border-radius:50%; background:rgba(0,0,0,0.5); }
 
+/* ── HEX OVERLAY — vertical stacked layout ───────────────────── */
+/* The card needs relative positioning for the overlay */
+.keep-card { position:relative; }
+
+.hex-overlay {
+  position:absolute; inset:0; border-radius:24px;
+  padding:14px 14px 14px 10px;
+  display:flex; flex-direction:column; justify-content:center; gap:6px;
+  opacity:0; transform:translateY(8px); pointer-events:none;
+  transition:opacity 0.28s ease, transform 0.28s ease;
+  background:inherit;           /* same pastel as card */
+  backdrop-filter:blur(2px);
+  z-index:10;
+}
+.keep-card:hover .hex-overlay {
+  opacity:1; transform:translateY(0); pointer-events:all;
+}
+
+/* One row: hex left + text panel right */
+.hx-row {
+  display:flex; align-items:center; gap:8px;
+}
+/* Cascade stagger matching the screenshot */
+.hx-row:nth-child(1) { padding-left:0;  }
+.hx-row:nth-child(2) { padding-left:12px; }
+.hx-row:nth-child(3) { padding-left:20px; }
+.hx-row:nth-child(4) { padding-left:12px; }
+.hx-row:nth-child(5) { padding-left:0;  }
+
+/* Hexagon shape */
+.hx-shape {
+  width:42px; height:42px; flex-shrink:0;
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Orbitron',sans-serif; font-weight:900;
+  font-size:15px; color:#fff;
+  transition:transform 0.15s;
+  cursor:default;
+}
+.hx-shape:hover { transform:scale(1.12); }
+
+/* Text panel */
+.hx-panel {
+  flex:1; background:rgba(255,255,255,0.72);
+  border-radius:5px; padding:5px 10px;
+  display:flex; align-items:center; justify-content:space-between;
+  gap:8px; min-width:0; box-shadow:0 1px 4px rgba(0,0,0,0.08);
+}
+.hx-text {
+  font-size:11px; color:rgba(0,0,0,0.65); font-weight:500;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  flex:1; min-width:0;
+}
+.hx-text strong { color:rgba(0,0,0,0.82); font-weight:700; }
+.hx-badge {
+  font-size:15px; flex-shrink:0; line-height:1;
+}
+
 /* ── SKELETON LOADER ─────────────────────────────────────────── */
 .skel {
   border-radius:16px; min-height:150px;
@@ -243,68 +301,21 @@ body::after {
 /* ── WATCH CARD (Review tab) ─────────────────────────────────── */
 .watch-card {
   border-radius:24px; padding:20px 20px 16px;
-  background:#fff; border:none;
+  background:#3AABCC; border:none;
   display:flex; flex-direction:column; gap:0;
   transition:transform 0.22s ease, box-shadow 0.22s ease;
   position:relative; overflow:hidden; min-height:260px;
 }
 .watch-card:hover {
   transform:translateY(-6px);
-  box-shadow:0 16px 32px rgba(0,0,0,0.18);
+  box-shadow:0 16px 32px rgba(58,171,204,0.45);
 }
-/* Magnify scene */
-.magnify-scene {
-  flex:1; position:relative; display:flex;
-  align-items:center; justify-content:center;
-  min-height:160px; overflow:hidden;
+/* Radar scan scene */
+.radar-scene {
+  flex:1; display:flex; align-items:center; justify-content:center;
+  min-height:130px;
 }
-.magnify-glow {
-  position:absolute; width:110px; height:110px; border-radius:50%;
-  background:radial-gradient(circle, rgba(255,210,120,0.35) 0%, transparent 70%);
-  top:50%; left:50%; transform:translate(-50%,-55%);
-}
-/* Papers */
-.mpaper {
-  position:absolute; width:38px; height:48px;
-  background:#fff; border-radius:3px;
-  box-shadow:0 2px 8px rgba(0,0,0,0.14);
-  display:flex; flex-direction:column; justify-content:center;
-  padding:6px 5px; gap:4px;
-}
-.mpaper-line {
-  height:2.5px; background:#d0d0d8; border-radius:1px;
-}
-.mpaper-line:last-child { width:65%; }
-.mpaper.p1 { top:12%; left:6%;  animation:floatPaper1 4s ease-in-out infinite; }
-.mpaper.p2 { top:5%;  right:8%; animation:floatPaper2 4.5s ease-in-out infinite .5s; }
-.mpaper.p3 { bottom:10%; left:2%; animation:floatPaper3 3.8s ease-in-out infinite 1s; }
-.mpaper.p4 { bottom:8%; right:5%; animation:floatPaper4 4.2s ease-in-out infinite .3s; }
-.mpaper.p5 { top:28%; right:0%; animation:floatPaper2 5s ease-in-out infinite .8s; }
-@keyframes floatPaper1 { 0%,100%{transform:rotate(-8deg) translateY(0)} 50%{transform:rotate(-5deg) translateY(-7px)} }
-@keyframes floatPaper2 { 0%,100%{transform:rotate(6deg) translateY(0)} 50%{transform:rotate(9deg) translateY(-6px)} }
-@keyframes floatPaper3 { 0%,100%{transform:rotate(4deg) translateY(0)} 50%{transform:rotate(2deg) translateY(-8px)} }
-@keyframes floatPaper4 { 0%,100%{transform:rotate(-6deg) translateY(0)} 50%{transform:rotate(-9deg) translateY(-5px)} }
-/* Magnifying glass */
-.magnify-glass { position:relative; z-index:2; flex-shrink:0; }
-.magnify-lens {
-  width:68px; height:68px; border-radius:50%;
-  background:rgba(240,240,255,0.7);
-  border:7px solid #3a3d52;
-  box-shadow:inset 0 2px 8px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.18);
-  position:relative;
-}
-.magnify-lens::after {
-  content:''; position:absolute; top:8px; left:8px;
-  width:18px; height:18px; border-radius:50%;
-  background:rgba(255,255,255,0.5);
-}
-.magnify-handle {
-  width:10px; height:34px; background:#3a3d52;
-  border-radius:4px;
-  position:absolute; bottom:-30px; right:-6px;
-  transform:rotate(45deg);
-  box-shadow:0 2px 6px rgba(0,0,0,0.25);
-}
+.radar-scene svg { width:110px; height:110px; }
 /* Watch name/date/progressor */
 /* Watch card top header row */
 .watch-header {
@@ -313,25 +324,25 @@ body::after {
 }
 .watch-name {
   font-family:'Orbitron',sans-serif; font-size:15px; font-weight:700;
-  color:rgba(0,0,0,0.78); letter-spacing:0.5px;
+  color:#fff; letter-spacing:0.5px;
   word-break:break-word; line-height:1.3; flex:1;
 }
 .watch-date-badge {
   display:flex; align-items:center; gap:4px;
-  background:rgba(0,0,0,0.06); border-radius:20px;
+  background:rgba(255,255,255,0.18); border-radius:20px;
   padding:3px 9px; flex-shrink:0;
 }
-.watch-eye-icon { color:rgba(0,0,0,0.4); line-height:1; }
+.watch-eye-icon { color:rgba(255,255,255,0.8); line-height:1; }
 .watch-date {
-  font-size:10px; color:rgba(0,0,0,0.45);
+  font-size:10px; color:rgba(255,255,255,0.85);
   letter-spacing:1px; white-space:nowrap;
 }
-/* Price — hidden by default, shown on hover */
+/* Price — hidden, revealed on hover */
 .watch-hover-details {
   max-height:0; opacity:0; overflow:hidden;
   transition:max-height 0.28s ease, opacity 0.28s ease,
              margin-top 0.28s ease, padding-top 0.28s ease;
-  border-top:1px solid rgba(0,0,0,0.08);
+  border-top:1px solid rgba(255,255,255,0.2);
   margin-top:0; padding-top:0;
 }
 .watch-card:hover .watch-hover-details {
@@ -339,46 +350,42 @@ body::after {
 }
 .watch-detail {
   display:flex; justify-content:space-between;
-  font-size:12px; color:rgba(0,0,0,0.5);
+  font-size:12px; color:rgba(255,255,255,0.7);
   letter-spacing:1px; margin-bottom:4px;
 }
-.watch-detail strong { color:rgba(0,0,0,0.75); font-weight:700; }
-.watch-divider { display:none; }   /* replaced by hover-details border */
+.watch-detail strong { color:#fff; font-weight:700; }
+.watch-divider { display:none; }
 /* Yellow progressor */
 .watch-progressor { margin-top:10px; }
 .watch-prog-label {
-  font-size:8px; letter-spacing:3px; color:rgba(0,0,0,0.35);
+  font-size:8px; letter-spacing:3px; color:rgba(255,255,255,0.55);
   margin-bottom:5px;
 }
 .watch-prog-track {
-  height:4px; background:rgba(0,0,0,0.08);
+  height:4px; background:rgba(255,255,255,0.2);
   border-radius:2px; overflow:hidden;
 }
 .watch-prog-fill {
   height:100%; border-radius:2px; background:#FFD700;
-  box-shadow:0 0 8px rgba(255,215,0,0.5);
+  box-shadow:0 0 8px rgba(255,215,0,0.6);
   animation:progressor 2.8s ease-in-out infinite;
 }
 .watch-top { display:flex; align-items:center; gap:14px; }
-.watch-scan {
-  position:relative; width:68px; height:68px;
-  flex-shrink:0;
-}
-.watch-scan svg { width:100%; height:100%; }
 .scan-ring {
-  stroke:rgba(255,255,255,0.5); fill:none;
-  stroke-width:1.2;
+  stroke:rgba(255,255,255,0.45); fill:none; stroke-width:1.2;
+}
+.scan-sector {
+  fill:rgba(255,215,0,0.12);
 }
 .scan-line {
   stroke:#FFD700; fill:none;
-  stroke-width:2; stroke-linecap:round;
+  stroke-width:2.5; stroke-linecap:round;
   animation:scanRotate 3s linear infinite;
-  transform-origin:26px 26px;
-  filter:drop-shadow(0 0 3px #FFD700);
+  transform-origin:55px 55px;
+  filter:drop-shadow(0 0 4px #FFD700);
 }
 .scan-dot {
-  fill:#FFD700;
-  filter:drop-shadow(0 0 4px #FFD700);
+  fill:#FFD700; filter:drop-shadow(0 0 5px #FFD700);
   animation:scanPulse 3s ease-in-out infinite;
 }
 @keyframes scanRotate { to { transform:rotate(360deg); } }
@@ -751,29 +758,86 @@ function renderCards() {
     } else if (isExits) {
       el.appendChild(buildExitsCard(card));
     } else {
-      el.className = 'keep-card';
-      el.style.background = CARD_COLORS[idx % CARD_COLORS.length];
-      const dateFmt    = fmtDate(card.dateStr);
-      const statusHtml = card.status
-        ? `<div class="card-status"><span class="sdot"></span>${card.status.toUpperCase()}</div>` : '';
-      const noteHtml = card.note
-        ? `<div class="detail-row"><span>Note:</span><strong>${card.note}</strong></div>` : '';
-      _html(el, `
-        <div>
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:6px">
-            ${statusHtml}
-            <span class="card-date" style="margin-top:0;flex-shrink:0">${dateFmt}</span>
-          </div>
-          <div class="card-title">${escHtml(card.company)}</div>
-        </div>
-        <div class="card-details">
-          <div class="detail-row"><span>Price</span><strong>${escHtml(card.price)}</strong></div>
-          <div class="detail-row"><span>Target</span><strong>${escHtml(card.target)}</strong></div>
-          ${noteHtml}
-        </div>`);
+      el.appendChild(buildHoldingsCard(card, idx));
     }
     grid.appendChild(el);
   });
+}
+
+function buildHoldingsCard(card, idx) {
+  const wrap = document.createElement('div');
+  wrap.className = 'keep-card';
+  wrap.style.background = CARD_COLORS[idx % CARD_COLORS.length];
+
+  const dateFmt = fmtDate(card.dateStr);
+
+  // ── Visible content (hidden behind overlay on hover) ─────────
+  const top = document.createElement('div');
+  const headerRow = document.createElement('div');
+  headerRow.style.cssText = 'display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:4px';
+  const titleEl = document.createElement('div');
+  titleEl.className = 'card-title'; titleEl.textContent = card.company;
+  const dateEl = document.createElement('span');
+  dateEl.className = 'card-date';
+  dateEl.style.cssText = 'flex-shrink:0;margin-top:4px';
+  dateEl.textContent = dateFmt;
+  headerRow.appendChild(titleEl); headerRow.appendChild(dateEl);
+  top.appendChild(headerRow);
+  wrap.appendChild(top);
+
+  const illus = document.createElement('div');
+  illus.className = 'card-illustration';
+  const ticker = document.createElement('div');
+  ticker.className = 'card-ticker-big';
+  ticker.textContent = card.company.slice(0, 4);
+  illus.appendChild(ticker);
+  wrap.appendChild(illus);
+
+  // ── Hex overlay — appears on card hover ──────────────────────
+  // 5 rows: colored hex left, text panel right, badge icon far right
+  // Colors matching screenshot: pink, teal, orange, sage-green, blue
+  const hexDefs = [
+    { n:'1', bg:'#7C3AED', label:'LongTerm / ShortTerm', value: card.category || '—',  badge:'◆' },
+    { n:'2', bg:'#00ACC1', label:'Entry date',            value: dateFmt,               badge:'🗓' },
+    { n:'3', bg:'#F4511E', label:'Status',                value: card.status   || '—', badge:'⚙' },
+    { n:'4', bg:'#43A047', label:'Price',                 value: card.price    || '—', badge:'$' },
+    { n:'5', bg:'#1E88E5', label:'Target',                value: card.target   || '—', badge:'🚀' },
+  ];
+
+  const overlay = document.createElement('div');
+  overlay.className = 'hex-overlay';
+
+  hexDefs.forEach(def => {
+    const row = document.createElement('div');
+    row.className = 'hx-row';
+
+    // Hexagon
+    const shape = document.createElement('div');
+    shape.className = 'hx-shape';
+    shape.style.background = def.bg;
+    shape.textContent = def.n;
+
+    // Text panel
+    const panel = document.createElement('div');
+    panel.className = 'hx-panel';
+
+    const txt = document.createElement('div');
+    txt.className = 'hx-text';
+    txt.innerHTML = `<strong>${def.label}:</strong> ${escHtml(def.value)}`;
+
+    const badge = document.createElement('div');
+    badge.className = 'hx-badge';
+    badge.textContent = def.badge;
+
+    panel.appendChild(txt);
+    panel.appendChild(badge);
+    row.appendChild(shape);
+    row.appendChild(panel);
+    overlay.appendChild(row);
+  });
+
+  wrap.appendChild(overlay);
+  return wrap;
 }
 
 function buildWatchCard(card) {
@@ -785,36 +849,45 @@ function buildWatchCard(card) {
   const targetHtml = card.target && card.target !== '—'
     ? `<div class="watch-detail"><span>Target</span><strong>${escHtml(card.target)}</strong></div>` : '';
 
-  // ── Magnify scene (Image 2 style) ──────────────────
+  // ── Radar scan scene (DOM SVG) ──────────────────────
   const scene = document.createElement('div');
-  scene.className = 'magnify-scene';
+  scene.className = 'radar-scene';
+  const ns2 = 'http://www.w3.org/2000/svg';
+  const rsvg = document.createElementNS(ns2, 'svg');
+  rsvg.setAttribute('viewBox','0 0 110 110');
 
-  const glow = document.createElement('div');
-  glow.className = 'magnify-glow';
-  scene.appendChild(glow);
-
-  // Floating papers
-  [['p1',3],['p2',3],['p3',3],['p4',2],['p5',3]].forEach(([cls, lines]) => {
-    const p = document.createElement('div');
-    p.className = `mpaper ${cls}`;
-    for (let i=0;i<lines;i++) {
-      const l = document.createElement('div');
-      l.className = 'mpaper-line';
-      p.appendChild(l);
-    }
-    scene.appendChild(p);
-  });
-
-  // Magnifying glass (CSS only)
-  const glass = document.createElement('div');
-  glass.className = 'magnify-glass';
-  const lens = document.createElement('div');
-  lens.className = 'magnify-lens';
-  const handle = document.createElement('div');
-  handle.className = 'magnify-handle';
-  glass.appendChild(lens);
-  glass.appendChild(handle);
-  scene.appendChild(glass);
+  const makeC = (cx,cy,r,cls,op) => {
+    const c = document.createElementNS(ns2,'circle');
+    c.setAttribute('cx',cx); c.setAttribute('cy',cy);
+    c.setAttribute('r',r);   c.setAttribute('class',cls);
+    if (op) c.setAttribute('opacity',op);
+    return c;
+  };
+  const makeLine = (x1,y1,x2,y2,cls,dash) => {
+    const l = document.createElementNS(ns2,'line');
+    l.setAttribute('x1',x1); l.setAttribute('y1',y1);
+    l.setAttribute('x2',x2); l.setAttribute('y2',y2);
+    l.setAttribute('class',cls);
+    if (dash) l.setAttribute('stroke-dasharray',dash);
+    return l;
+  };
+  // Rings
+  rsvg.appendChild(makeC(55,55,50,'scan-ring'));
+  rsvg.appendChild(makeC(55,55,34,'scan-ring','.65'));
+  rsvg.appendChild(makeC(55,55,18,'scan-ring','.45'));
+  // Crosshairs
+  rsvg.appendChild(makeLine(5,55,105,55,'scan-ring','4 3'));
+  rsvg.appendChild(makeLine(55,5,55,105,'scan-ring','4 3'));
+  // Sweep line + tip dot
+  const sweep = document.createElementNS(ns2,'line');
+  sweep.setAttribute('x1','55'); sweep.setAttribute('y1','55');
+  sweep.setAttribute('x2','55'); sweep.setAttribute('y2','6');
+  sweep.setAttribute('class','scan-line');
+  rsvg.appendChild(sweep);
+  rsvg.appendChild(makeC(55,6,3,'scan-dot'));
+  // Centre dot
+  rsvg.appendChild(makeC(55,55,3,'scan-ring'));
+  scene.appendChild(rsvg);
   wrap.appendChild(scene);
 
   // ── Top header: company name left, eye+date top-right ──────────
@@ -836,7 +909,7 @@ function buildWatchCard(card) {
   eyeSvg.setAttribute('width','13'); eyeSvg.setAttribute('height','13');
   eyeSvg.setAttribute('viewBox','0 0 24 24');
   eyeSvg.setAttribute('fill','none');
-  eyeSvg.setAttribute('stroke','rgba(0,0,0,0.45)');
+  eyeSvg.setAttribute('stroke','rgba(255,255,255,0.85)');
   eyeSvg.setAttribute('stroke-width','2');
   eyeSvg.setAttribute('stroke-linecap','round');
   const eyePath = document.createElementNS(ns, 'path');
