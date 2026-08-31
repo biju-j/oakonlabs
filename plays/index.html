@@ -115,15 +115,38 @@ body::after {
   padding:8px 20px; border-radius:2px; cursor:pointer;
   border:1px solid var(--bdr); color:var(--gd);
   background:rgba(0,255,65,0.025);
-  font-family:'Orbitron',sans-serif; font-size:9px; letter-spacing:3px;
+  font-family:'Orbitron',sans-serif; font-size:9px;
+  font-weight:700; letter-spacing:3px;
   transition:all 0.2s;
 }
-.tab-btn:hover { background:rgba(0,229,255,0.07); color:var(--cy); }
-.tab-btn.active {
+/* Holdings — cyan */
+.tab-btn[data-tab="Holdings"]:hover,
+.tab-btn[data-tab="Holdings"].active {
   background:rgba(0,229,255,0.10); color:var(--cy);
   border-color:rgba(0,229,255,0.55);
   box-shadow:0 0 16px rgba(0,229,255,0.18);
-  text-shadow:0 0 10px rgba(0,229,255,0.5);
+  text-shadow:0 0 10px rgba(0,229,255,0.4);
+}
+/* Review — filled blue pill (matches Get Started button style) */
+.tab-btn[data-tab="Review"] {
+  border-radius:20px;
+}
+.tab-btn[data-tab="Review"]:hover {
+  background:#3AABCC; color:#fff; border-color:#3AABCC;
+  box-shadow:0 4px 14px rgba(58,171,204,0.35);
+}
+.tab-btn[data-tab="Review"].active {
+  background:#3AABCC; color:#fff; border-color:#3AABCC;
+  box-shadow:0 4px 18px rgba(58,171,204,0.45);
+  text-shadow:none;
+}
+/* Exits — white */
+.tab-btn[data-tab="Exits"]:hover,
+.tab-btn[data-tab="Exits"].active {
+  background:rgba(255,255,255,0.08); color:#fff;
+  border-color:rgba(255,255,255,0.45);
+  box-shadow:0 0 16px rgba(255,255,255,0.12);
+  text-shadow:0 0 10px rgba(255,255,255,0.35);
 }
 
 /* ── TAB LABEL ───────────────────────────────────────────────── */
@@ -147,8 +170,8 @@ body::after {
 
 /* ── KEEP-STYLE CARD ─────────────────────────────────────────── */
 .keep-card {
-  border-radius:16px; padding:22px 22px 18px;
-  min-height:150px; position:relative; overflow:hidden;
+  border-radius:16px; padding:26px 24px 22px;
+  min-height:220px; position:relative; overflow:hidden;
   display:flex; flex-direction:column; justify-content:space-between;
   transition:transform 0.22s ease, box-shadow 0.22s ease;
   cursor:default;
@@ -219,15 +242,15 @@ body::after {
 
 /* ── WATCH CARD (Review tab) ─────────────────────────────────── */
 .watch-card {
-  border-radius:12px; padding:20px 20px 16px;
-  background:#111418; border:1px solid rgba(255,255,255,0.08);
-  display:flex; flex-direction:column; gap:12px;
+  border-radius:16px; padding:22px 22px 18px;
+  background:#3AABCC; border:1px solid rgba(255,255,255,0.15);
+  display:flex; flex-direction:column; gap:0;
   transition:transform 0.22s ease, box-shadow 0.22s ease;
+  position:relative; overflow:hidden; min-height:200px;
 }
 .watch-card:hover {
-  transform:translateY(-4px);
-  box-shadow:0 10px 24px rgba(0,0,0,0.5);
-  border-color:rgba(255,255,255,0.14);
+  transform:translateY(-5px);
+  box-shadow:0 12px 28px rgba(58,171,204,0.4);
 }
 .watch-top { display:flex; align-items:center; gap:14px; }
 .watch-scan {
@@ -236,50 +259,62 @@ body::after {
 }
 .watch-scan svg { width:100%; height:100%; }
 .scan-ring {
-  stroke:rgba(255,255,255,0.15); fill:none;
+  stroke:rgba(255,255,255,0.35); fill:none;
   stroke-width:1;
 }
 .scan-line {
-  stroke:rgba(255,255,255,0.55); fill:none;
+  stroke:rgba(255,255,255,0.9); fill:none;
   stroke-width:1.5; stroke-linecap:round;
   animation:scanRotate 3s linear infinite;
   transform-origin:26px 26px;
 }
 .scan-dot {
-  fill:rgba(255,255,255,0.7);
+  fill:#fff;
   animation:scanPulse 3s ease-in-out infinite;
 }
 @keyframes scanRotate { to { transform:rotate(360deg); } }
 @keyframes scanPulse  { 0%,100%{opacity:.3} 50%{opacity:1} }
 .watch-info { flex:1; min-width:0; }
 .watch-name {
-  font-family:'Orbitron',sans-serif; font-size:14px; font-weight:700;
-  color:rgba(255,255,255,0.75); letter-spacing:1px;
-  word-break:break-word; line-height:1.3;
+  font-family:'Orbitron',sans-serif; font-size:16px; font-weight:700;
+  color:#fff; letter-spacing:1px;
+  word-break:break-word; line-height:1.3; flex:1;
 }
-.watch-date { font-size:10px; color:rgba(255,255,255,0.35); margin-top:4px; letter-spacing:1px; }
-.watch-badge {
-  display:inline-flex; align-items:center; gap:5px;
-  padding:4px 10px; border-radius:20px;
-  background:rgba(255,255,255,0.06);
-  border:1px solid rgba(255,255,255,0.1);
-  font-size:9px; letter-spacing:2px; color:rgba(255,255,255,0.45);
-  align-self:flex-start;
-}
-.watch-badge-dot {
-  width:4px; height:4px; border-radius:50%;
-  background:rgba(255,255,255,0.4);
-  animation:blink 2s step-end infinite;
+.watch-date {
+  font-size:10px; color:rgba(255,255,255,0.7);
+  letter-spacing:1px; white-space:nowrap;
 }
 .watch-divider {
-  height:1px; background:rgba(255,255,255,0.06);
+  height:1px; background:rgba(255,255,255,0.2); margin:14px 0 10px;
 }
 .watch-detail {
   display:flex; justify-content:space-between;
-  font-size:11px; color:rgba(255,255,255,0.3);
-  letter-spacing:1px;
+  font-size:12px; color:rgba(255,255,255,0.7);
+  letter-spacing:1px; margin-bottom:5px;
 }
-.watch-detail strong { color:rgba(255,255,255,0.55); }
+.watch-detail strong { color:#fff; font-weight:700; }
+/* Yellow progressor bar */
+.watch-progressor {
+  margin-top:auto; padding-top:16px;
+}
+.watch-prog-label {
+  font-size:8px; letter-spacing:3px; color:rgba(255,255,255,0.6);
+  margin-bottom:5px;
+}
+.watch-prog-track {
+  height:4px; background:rgba(255,255,255,0.2);
+  border-radius:2px; overflow:hidden;
+}
+.watch-prog-fill {
+  height:100%; border-radius:2px; background:#FFD700;
+  box-shadow:0 0 8px rgba(255,215,0,0.7);
+  animation:progressor 2.8s ease-in-out infinite;
+}
+@keyframes progressor {
+  0%   { width:15%; opacity:.7; }
+  50%  { width:75%; opacity:1;  }
+  100% { width:15%; opacity:.7; }
+}
 
 /* ── ANIMATIONS ──────────────────────────────────────────────── */
 @keyframes sweep { to { transform:rotate(360deg); } }
@@ -351,7 +386,7 @@ body::after {
       <div style="height:34px;width:70px;border-radius:2px;background:rgba(0,255,65,0.04);border:1px solid var(--bdr);animation:skelpulse 1.4s infinite .4s"></div>
     </div>
 
-    <div class="tab-label" id="tab-label">LOADING</div>
+    <div id="tab-label" style="display:none"></div>
 
     <div class="card-grid" id="card-grid">
       <!-- Skeleton cards -->
@@ -577,23 +612,36 @@ function renderCards() {
     return;
   }
 
+  // Sort left-to-right by Date ascending
+  filtered.sort((a, b) => {
+    const da = a.dateStr ? new Date(a.dateStr) : new Date(0);
+    const db = b.dateStr ? new Date(b.dateStr) : new Date(0);
+    return da - db;
+  });
+
+  const isExits = tabKey === 'exits';
+
   filtered.forEach((card, idx) => {
     const el = document.createElement('div');
     if (isReview) {
       el.appendChild(buildWatchCard(card));
+    } else if (isExits) {
+      el.appendChild(buildExitsCard(card));
     } else {
       el.className = 'keep-card';
       el.style.background = CARD_COLORS[idx % CARD_COLORS.length];
-      const dateFmt   = fmtDate(card.dateStr);
+      const dateFmt    = fmtDate(card.dateStr);
       const statusHtml = card.status
         ? `<div class="card-status"><span class="sdot"></span>${card.status.toUpperCase()}</div>` : '';
       const noteHtml = card.note
         ? `<div class="detail-row"><span>Note:</span><strong>${card.note}</strong></div>` : '';
       el.innerHTML = `
         <div>
-          ${statusHtml}
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:6px">
+            ${statusHtml}
+            <span class="card-date" style="margin-top:0;flex-shrink:0">${dateFmt}</span>
+          </div>
           <div class="card-title">${escHtml(card.company)}</div>
-          <div class="card-date">${dateFmt}</div>
         </div>
         <div class="card-details">
           <div class="detail-row"><span>Price</span><strong>${escHtml(card.price)}</strong></div>
@@ -608,35 +656,63 @@ function renderCards() {
 function buildWatchCard(card) {
   const wrap = document.createElement('div');
   wrap.className = 'watch-card';
-  const dateFmt = fmtDate(card.dateStr);
-  const priceHtml = card.price && card.price !== '—'
+  const dateFmt    = fmtDate(card.dateStr);
+  const priceHtml  = card.price && card.price !== '—'
     ? `<div class="watch-detail"><span>Price</span><strong>${escHtml(card.price)}</strong></div>` : '';
   const targetHtml = card.target && card.target !== '—'
     ? `<div class="watch-detail"><span>Target</span><strong>${escHtml(card.target)}</strong></div>` : '';
 
   wrap.innerHTML = `
-    <div class="watch-top">
-      <div class="watch-scan">
-        <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="26" cy="26" r="24" class="scan-ring"/>
-          <circle cx="26" cy="26" r="16" class="scan-ring" opacity=".6"/>
-          <circle cx="26" cy="26" r="8"  class="scan-ring" opacity=".4"/>
-          <line x1="26" y1="26" x2="26" y2="4" class="scan-line"/>
-          <circle cx="26" cy="4" r="2" class="scan-dot"/>
-          <line x1="2"  y1="26" x2="50" y2="26" class="scan-ring" stroke-dasharray="3 3"/>
-          <line x1="26" y1="2"  x2="26" y2="50" class="scan-ring" stroke-dasharray="3 3"/>
-        </svg>
-      </div>
-      <div class="watch-info">
-        <div class="watch-name">${escHtml(card.company)}</div>
-        <div class="watch-date">${dateFmt}</div>
-      </div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:10px">
+      <div class="watch-name">${escHtml(card.company)}</div>
+      <span class="watch-date">${dateFmt}</span>
     </div>
-    <div class="watch-badge">
-      <span class="watch-badge-dot"></span>
-      UNDER ASSESSMENT
-    </div>
-    ${priceHtml || targetHtml ? `<div class="watch-divider"></div>${priceHtml}${targetHtml}` : ''}`;
+    ${priceHtml || targetHtml
+      ? `<div class="watch-divider"></div>${priceHtml}${targetHtml}`
+      : ''}
+    <div class="watch-progressor">
+      <div class="watch-prog-label">PROGRESSOR</div>
+      <div class="watch-prog-track">
+        <div class="watch-prog-fill"></div>
+      </div>
+    </div>`;
+  return wrap;
+}
+
+function buildExitsCard(card) {
+  const wrap = document.createElement('div');
+  wrap.style.cssText = [
+    'border-radius:12px','padding:22px 20px 18px',
+    'background:rgba(255,255,255,0.04)',
+    'border:1px solid rgba(255,255,255,0.18)',
+    'display:flex','flex-direction:column','gap:10px',
+    'min-height:180px','position:relative','overflow:hidden',
+    'transition:transform 0.22s ease, box-shadow 0.22s ease'
+  ].join(';');
+  wrap.onmouseenter = () => {
+    wrap.style.transform = 'translateY(-4px)';
+    wrap.style.boxShadow = '0 10px 28px rgba(0,0,0,0.5)';
+    wrap.style.borderColor = 'rgba(255,255,255,0.38)';
+  };
+  wrap.onmouseleave = () => {
+    wrap.style.transform = ''; wrap.style.boxShadow = ''; wrap.style.borderColor = '';
+  };
+  const dateFmt    = fmtDate(card.dateStr);
+  const statusHtml = card.status
+    ? `<div style="display:inline-flex;align-items:center;gap:5px;padding:3px 9px;border-radius:20px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);font-size:9px;letter-spacing:2px;color:rgba(255,255,255,0.6);align-self:flex-start">${escHtml(card.status.toUpperCase())}</div>` : '';
+  const priceHtml  = card.price && card.price !== '—'
+    ? `<div style="display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,0.45);letter-spacing:1px"><span>Price</span><strong style="color:rgba(255,255,255,0.8)">${escHtml(card.price)}</strong></div>` : '';
+  const targetHtml = card.target && card.target !== '—'
+    ? `<div style="display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,0.45);letter-spacing:1px"><span>Target</span><strong style="color:rgba(255,255,255,0.8)">${escHtml(card.target)}</strong></div>` : '';
+  const noteHtml   = card.note
+    ? `<div style="font-size:11px;color:rgba(255,255,255,0.4);line-height:1.5">${escHtml(card.note)}</div>` : '';
+
+  wrap.innerHTML = `
+    ${statusHtml}
+    <div style="font-family:'Orbitron',sans-serif;font-size:18px;font-weight:700;color:#fff;letter-spacing:1px;line-height:1.3;word-break:break-word">${escHtml(card.company)}</div>
+    <div style="font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:2px">${dateFmt}</div>
+    ${priceHtml || targetHtml ? `<div style="height:1px;background:rgba(255,255,255,0.08)"></div>${priceHtml}${targetHtml}` : ''}
+    ${noteHtml}`;
   return wrap;
 }
 
