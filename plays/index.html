@@ -252,22 +252,24 @@ body::after {
 }
 .watch-top { display:flex; align-items:center; gap:14px; }
 .watch-scan {
-  position:relative; width:52px; height:52px;
+  position:relative; width:68px; height:68px;
   flex-shrink:0;
 }
 .watch-scan svg { width:100%; height:100%; }
 .scan-ring {
-  stroke:rgba(255,215,0,0.35); fill:none;
-  stroke-width:1;
+  stroke:rgba(255,255,255,0.5); fill:none;
+  stroke-width:1.2;
 }
 .scan-line {
   stroke:#FFD700; fill:none;
-  stroke-width:1.5; stroke-linecap:round;
+  stroke-width:2; stroke-linecap:round;
   animation:scanRotate 3s linear infinite;
   transform-origin:26px 26px;
+  filter:drop-shadow(0 0 3px #FFD700);
 }
 .scan-dot {
   fill:#FFD700;
+  filter:drop-shadow(0 0 4px #FFD700);
   animation:scanPulse 3s ease-in-out infinite;
 }
 @keyframes scanRotate { to { transform:rotate(360deg); } }
@@ -674,33 +676,68 @@ function buildWatchCard(card) {
   const targetHtml = card.target && card.target !== '—'
     ? `<div class="watch-detail"><span>Target</span><strong>${escHtml(card.target)}</strong></div>` : '';
 
-  _html(wrap, `
-    <div class="watch-top">
-      <div class="watch-scan">
-        <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="26" cy="26" r="24" class="scan-ring"/>
-          <circle cx="26" cy="26" r="16" class="scan-ring" opacity=".6"/>
-          <circle cx="26" cy="26" r="8"  class="scan-ring" opacity=".4"/>
-          <line x1="26" y1="26" x2="26" y2="4" class="scan-line"/>
-          <circle cx="26" cy="4" r="2" class="scan-dot"/>
-          <line x1="2"  y1="26" x2="50" y2="26" class="scan-ring" stroke-dasharray="3 3"/>
-          <line x1="26" y1="2"  x2="26" y2="50" class="scan-ring" stroke-dasharray="3 3"/>
-        </svg>
-      </div>
-      <div class="watch-info">
-        <div class="watch-name">${escHtml(card.company)}</div>
-        <div class="watch-date">${dateFmt}</div>
-      </div>
-    </div>
-    ${priceHtml || targetHtml
-      ? `<div class="watch-divider"></div>${priceHtml}${targetHtml}`
-      : ''}
-    <div class="watch-progressor">
-      <div class="watch-prog-label">PROGRESSOR</div>
-      <div class="watch-prog-track">
-        <div class="watch-prog-fill"></div>
-      </div>
-    </div>`);
+  // Build radar + card using DOM methods (avoids SVG innerHTML issues)
+  const top = document.createElement('div');
+  top.className = 'watch-top';
+
+  // Radar scan SVG
+  const scanWrap = document.createElement('div');
+  scanWrap.className = 'watch-scan';
+  const ns = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(ns, 'svg');
+  svg.setAttribute('viewBox', '0 0 52 52');
+  const rings = [[24,1],[16,.6],[8,.4]].map(([r,op]) => {
+    const c = document.createElementNS(ns, 'circle');
+    c.setAttribute('cx','26'); c.setAttribute('cy','26');
+    c.setAttribute('r', String(r)); c.setAttribute('class','scan-ring');
+    if (op < 1) c.setAttribute('opacity', String(op));
+    return c;
+  });
+  const cross1 = document.createElementNS(ns, 'line');
+  cross1.setAttribute('x1','2'); cross1.setAttribute('y1','26');
+  cross1.setAttribute('x2','50'); cross1.setAttribute('y2','26');
+  cross1.setAttribute('class','scan-ring'); cross1.setAttribute('stroke-dasharray','3 3');
+  const cross2 = document.createElementNS(ns, 'line');
+  cross2.setAttribute('x1','26'); cross2.setAttribute('y1','2');
+  cross2.setAttribute('x2','26'); cross2.setAttribute('y2','50');
+  cross2.setAttribute('class','scan-ring'); cross2.setAttribute('stroke-dasharray','3 3');
+  const sweepLine = document.createElementNS(ns, 'line');
+  sweepLine.setAttribute('x1','26'); sweepLine.setAttribute('y1','26');
+  sweepLine.setAttribute('x2','26'); sweepLine.setAttribute('y2','3');
+  sweepLine.setAttribute('class','scan-line');
+  const dot = document.createElementNS(ns, 'circle');
+  dot.setAttribute('cx','26'); dot.setAttribute('cy','3');
+  dot.setAttribute('r','2.5'); dot.setAttribute('class','scan-dot');
+  rings.forEach(r => svg.appendChild(r));
+  svg.appendChild(cross1); svg.appendChild(cross2);
+  svg.appendChild(sweepLine); svg.appendChild(dot);
+  scanWrap.appendChild(svg);
+
+  // Company + date info
+  const info = document.createElement('div');
+  info.className = 'watch-info';
+  const nm = document.createElement('div');
+  nm.className = 'watch-name'; nm.textContent = card.company;
+  const dt = document.createElement('div');
+  dt.className = 'watch-date'; dt.textContent = dateFmt;
+  info.appendChild(nm); info.appendChild(dt);
+
+  top.appendChild(scanWrap); top.appendChild(info);
+  wrap.appendChild(top);
+
+  // Price / target rows
+  if (priceHtml || targetHtml) {
+    const div = document.createElement('div');
+    div.className = 'watch-divider';
+    wrap.appendChild(div);
+    _html(wrap, (priceHtml || '') + (targetHtml || ''));
+  }
+
+  // Yellow progressor bar
+  const prog = document.createElement('div');
+  prog.className = 'watch-progressor';
+  prog.innerHTML = '<div class="watch-prog-label">PROGRESSOR</div><div class="watch-prog-track"><div class="watch-prog-fill"></div></div>';
+  wrap.appendChild(prog);
   return wrap;
 }
 
